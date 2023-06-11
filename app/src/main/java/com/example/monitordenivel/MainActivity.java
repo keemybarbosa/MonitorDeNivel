@@ -13,11 +13,15 @@ import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowInsets;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.monitordenivel.databinding.ActivityMainBinding;
 import com.example.monitordenivel.http.HttpHelper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -129,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TextView tv1 = findViewById(R.id.fullscreen_content);
+        ListView lvEquipments = findViewById(R.id.lstEquipments);
+
+
+
+
+
+
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
@@ -141,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 //AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last");
                 AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/equipment");
 
-                String returnJson = null;
+                String returnJson = "";
                 try {
                     returnJson = runner.execute().get();
                 } catch (ExecutionException e) {
@@ -152,8 +163,14 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                //A contem um json
+                //O Json retornado trata-se de uma lisa de equipamentos
 
+                ArrayList<Equipamento> equipamentos = getEquipamentosFromJson(returnJson);
+                ArrayAdapter adapter =  new EquipamentoAdapter(MainActivity.this, equipamentos);
+                lvEquipments.setAdapter(adapter);
+
+
+                //TODO: Esse textView irá sumir
                 tv1.setText(returnJson);
 ;            }
         });
@@ -164,6 +181,18 @@ public class MainActivity extends AppCompatActivity {
                 tv1.setText("JSON");
             }
         });
+
+    }
+
+    private ArrayList<Equipamento> getEquipamentosFromJson(String returnJson) {
+        ArrayList<Equipamento> listaEquipamentos = new ArrayList<Equipamento>();
+
+        listaEquipamentos.add(new Equipamento(1,"dd:ss:dd:ss:Dd:rr"));
+        listaEquipamentos.add(new Equipamento(2,"bb:ss:dd:ss:Dd:rr"));
+        listaEquipamentos.add(new Equipamento(3,"aa:ss:sd:ss:Dd:rr"));
+        listaEquipamentos.add(new Equipamento(4,"44:ss:dd:ss:Dd:rr"));
+
+        return listaEquipamentos;
 
     }
 
