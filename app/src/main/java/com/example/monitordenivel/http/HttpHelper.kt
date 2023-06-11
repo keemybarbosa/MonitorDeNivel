@@ -32,7 +32,7 @@ public class HttpHelper {
             //Exibir o body da requisição
             if (responseBody != null){
                 val json = responseBody.toString()
-                return "====> " + json
+                return "" + json
             }
 
         } catch (e: Exception ){

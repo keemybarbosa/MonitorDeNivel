@@ -19,10 +19,13 @@ import android.widget.TextView;
 
 import com.example.monitordenivel.databinding.ActivityMainBinding;
 import com.example.monitordenivel.http.HttpHelper;
+import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -171,14 +174,18 @@ public class MainActivity extends AppCompatActivity {
 
 
                 //TODO: Esse textView irá sumir
-                tv1.setText(returnJson);
+                //tv1.setText(returnJson);
 ;            }
         });
 
         binding.limparButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv1.setText("JSON");
+
+
+                //tv1.setText("JSON");
+                ArrayAdapter adapter = (ArrayAdapter) lvEquipments.getAdapter();
+                adapter.clear();
             }
         });
 
@@ -187,12 +194,11 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Equipamento> getEquipamentosFromJson(String returnJson) {
         ArrayList<Equipamento> listaEquipamentos = new ArrayList<Equipamento>();
 
-        listaEquipamentos.add(new Equipamento(1,"dd:ss:dd:ss:Dd:rr"));
-        listaEquipamentos.add(new Equipamento(2,"bb:ss:dd:ss:Dd:rr"));
-        listaEquipamentos.add(new Equipamento(3,"aa:ss:sd:ss:Dd:rr"));
-        listaEquipamentos.add(new Equipamento(4,"44:ss:dd:ss:Dd:rr"));
+        Gson gson = new Gson();
+        Type equipamentoListType = new TypeToken<List<Equipamento>>() {}.getType();
+        ArrayList<Equipamento> equipamentos = gson.fromJson(returnJson, equipamentoListType);
 
-        return listaEquipamentos;
+        return equipamentos;
 
     }
 

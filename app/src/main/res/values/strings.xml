@@ -2,7 +2,7 @@
     <string name="app_name">MonitorDeNivel</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="dummy_button">Ler Json</string>
+    <string name="dummy_button">Ler Equipamentos</string>
     <string name="limpar_button">Limpar</string>
     <string name="dummy_content">JSON</string>
     <!-- Strings used for fragments for navigation -->

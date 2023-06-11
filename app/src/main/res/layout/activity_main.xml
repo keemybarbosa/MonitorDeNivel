@@ -67,12 +67,14 @@
                 android:layout_height="wrap_content"
                 android:text="Lista de equipamentos:"
                 android:textSize="30dp"
+                android:padding="5dp"
                 android:layout_below="@id/layButtons" />
 
             <ListView
                 android:id="@+id/lstEquipments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_below="@id/label1"/>
 
 
