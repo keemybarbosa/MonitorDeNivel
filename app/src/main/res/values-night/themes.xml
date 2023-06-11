@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="ThemeOverlay.MonitorDeNivel.FullscreenContainer" parent="Theme.AppCompat.NoActionBar">
+        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="fullscreenTextColor">@color/light_blue_A400</item>
+    </style>
+</resources>
