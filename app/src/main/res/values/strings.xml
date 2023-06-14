@@ -4,7 +4,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="dummy_button">Ler Equipamentos</string>
     <string name="limpar_button">Limpar</string>
-    <string name="dummy_content">JSON</string>
+    <string name="dummy_content">.</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
