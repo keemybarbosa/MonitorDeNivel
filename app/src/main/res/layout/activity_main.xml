@@ -16,11 +16,19 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <TextView
+        android:id="@+id/lblEquipamentoFavorito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_header"
+        android:text="Equipamentos Favoritos" />
     <View
         android:id="@+id/vwEquip1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/container_header"
+        app:layout_constraintTop_toBottomOf="@id/lblEquipamentoFavorito"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/container_equipamento"
@@ -90,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="REFRESH"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
         />
@@ -102,6 +110,9 @@
         app:layout_constraintTop_toTopOf="@id/vwEquip1"
         app:layout_constraintStart_toStartOf="@id/vwEquip1"
         android:text="100%"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
         />
 
     <TextView
@@ -111,6 +122,9 @@
         app:layout_constraintTop_toTopOf="@id/vwEquip2"
         app:layout_constraintStart_toStartOf="@id/vwEquip2"
         android:text="100%"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
         />
 
     <TextView
@@ -120,6 +134,9 @@
         app:layout_constraintTop_toTopOf="@id/vwEquip3"
         app:layout_constraintStart_toStartOf="@id/vwEquip3"
         android:text="100%"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
         />
 
     <TextView
@@ -129,6 +146,9 @@
         app:layout_constraintTop_toTopOf="@id/vwEquip4"
         app:layout_constraintStart_toStartOf="@id/vwEquip4"
         android:text="100%"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
         />
 
     <TextView
@@ -138,6 +158,9 @@
         app:layout_constraintTop_toTopOf="@id/vwEquip5"
         app:layout_constraintStart_toStartOf="@id/vwEquip5"
         android:text="100%"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
         />
 
     <TextView
@@ -147,6 +170,10 @@
         app:layout_constraintTop_toBottomOf="@id/tvName1"
         app:layout_constraintStart_toStartOf="@id/vwEquip1"
         android:text="100%"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:textSize="@dimen/font_percentual_size"
+        android:layout_marginTop="@dimen/percentual_margintop"
         />
 
     <TextView
@@ -156,6 +183,10 @@
         app:layout_constraintTop_toBottomOf="@id/tvName2"
         app:layout_constraintStart_toStartOf="@id/vwEquip2"
         android:text="100%"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:textSize="@dimen/font_percentual_size"
+        android:layout_marginTop="@dimen/percentual_margintop"
         />
 
     <TextView
@@ -165,6 +196,10 @@
         app:layout_constraintTop_toBottomOf="@id/tvName3"
         app:layout_constraintStart_toStartOf="@id/vwEquip3"
         android:text="100%"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:textSize="@dimen/font_percentual_size"
+        android:layout_marginTop="@dimen/percentual_margintop"
         />
 
     <TextView
@@ -174,6 +209,10 @@
         app:layout_constraintTop_toBottomOf="@id/tvName4"
         app:layout_constraintStart_toStartOf="@id/vwEquip4"
         android:text="100%"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:textSize="@dimen/font_percentual_size"
+        android:layout_marginTop="@dimen/percentual_margintop"
         />
 
     <TextView
@@ -183,6 +222,10 @@
         app:layout_constraintTop_toBottomOf="@id/tvName5"
         app:layout_constraintStart_toStartOf="@id/vwEquip5"
         android:text="100%"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:textSize="@dimen/font_percentual_size"
+        android:layout_marginTop="@dimen/percentual_margintop"
         />
 
 

@@ -1,4 +1,4 @@
-package com.example.monitordenivel;
+package com.example.monitordenivel.models;
 
 public class Equipamento {
     private int id;

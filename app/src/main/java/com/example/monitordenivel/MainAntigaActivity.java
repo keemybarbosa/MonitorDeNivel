@@ -17,8 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.monitordenivel.databinding.ActivityMainBinding;
 import com.example.monitordenivel.databinding.ActivityMainantigaBinding;
+import com.example.monitordenivel.models.Equipamento;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;

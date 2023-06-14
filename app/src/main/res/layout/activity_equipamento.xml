@@ -7,7 +7,7 @@
     tools:context=".EquipamentoActivity">
 
     <View
-        android:id="@+id/container_header"
+        android:id="@+id/eq_container_header"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@drawable/container_header"
@@ -17,11 +17,12 @@
         />
 
     <TextView
+        android:id="@+id/lblEquipamento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container_header"
+        app:layout_constraintTop_toBottomOf="@id/eq_container_header"
         android:text="Equipamento"
         />
     <Button
@@ -29,9 +30,73 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="VOLTAR"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
         />
+    <TextView
+        android:id="@+id/tvEqpMeasure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Measure: "
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblEquipamento"/>
+    <TextView
+        android:id="@+id/tvEqpId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Id: "
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEqpMeasure"/>
+    <TextView
+        android:id="@+id/tvEqpName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome: "
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEqpId"/>
+    <TextView
+        android:id="@+id/tvEqpMac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mac: "
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEqpName"/>
+    <TextView
+        android:id="@+id/tvEqpVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Volume: "
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEqpMac"/>
+    <TextView
+        android:id="@+id/tvEqpEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distância Vazio: "
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEqpVolume"/>
+    <TextView
+        android:id="@+id/tvEqpFull"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distância Cheio: "
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEqpEmpty"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

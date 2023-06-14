@@ -8,8 +8,11 @@ import android.view.View;
 
 import com.example.monitordenivel.databinding.ActivityEquipamentoBinding;
 import com.example.monitordenivel.databinding.ActivityMainBinding;
+import com.example.monitordenivel.models.Equipamento;
 
 public class EquipamentoActivity extends AppCompatActivity {
+
+    private Equipamento equipamento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,10 @@ public class EquipamentoActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        equipamento = new Equipamento(1,"aa:aa:aa:aa:aa:aa",10000,100,30,"RES01", 50);
+
+
 
     }
 }

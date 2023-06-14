@@ -1,5 +1,6 @@
 package com.example.monitordenivel;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.monitordenivel.databinding.ActivityMainBinding;
+import com.example.monitordenivel.models.Equipamento;
+import com.example.monitordenivel.utils.MathUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -86,10 +89,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        carregarDados();
+    }
+
     private void carregarEquipamento(int i) {
+        int idEquipamento = equipamentos.get(i).getId();
         Intent intent = new Intent(getApplicationContext(), EquipamentoActivity.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        intent.putExtra("idEquipamento",equipamentos.get(i).getId());
+        intent.putExtra("idEquipamento",idEquipamento +"");
+        //overridePendingTransition (0, 0); //Prevent Black Screen
         finish();
     }
 
@@ -148,8 +160,7 @@ public class MainActivity extends AppCompatActivity {
         //TODO: METODO PARA TESTE
         ArrayList<Equipamento> listEquips = new ArrayList<Equipamento>();
 
-
-        listEquips.add(new Equipamento(1,"aa:aa:aa:aa:aa:aa",1000,250,40,"RES1",MathUtils.numeroAleatorio(40,250)));
+        listEquips.add(new Equipamento(1,"aa:aa:aa:aa:aa:aa",1000,250,40,"RES1", MathUtils.numeroAleatorio(40,250)));
         listEquips.add(new Equipamento(2,"bb:aa:aa:aa:aa:aa",1000,180,36,"RES2",MathUtils.numeroAleatorio(36,180)));
         listEquips.add(new Equipamento(3,"cc:aa:aa:aa:aa:aa",1000,100,48,"RES3",MathUtils.numeroAleatorio(48,100)));
         listEquips.add(new Equipamento(4,"dd:aa:aa:aa:aa:aa",1000,180,50,"RES4",MathUtils.numeroAleatorio(50,180)));
