@@ -25,6 +25,8 @@ import com.google.gson.Gson;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import com.google.gson.reflect.TypeToken;
 
@@ -115,6 +117,52 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };*/
+    public void teste(){
+        carregarDados(findViewById(R.id.fullscreen_content), findViewById(R.id.lstEquipments));
+    }
+
+    public void carregarDados(TextView tv1, ListView lvEquipments){
+        tv1.setText("Loading...");
+        //AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last");
+        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/equipment");
+
+        String returnJson = "";
+        try {
+            returnJson = runner.execute().get();
+
+            ArrayList<Equipamento> equipamentos = getEquipamentosFromJson(returnJson);
+            ArrayAdapter adapter =  new EquipamentoAdapter(MainActivity.this, equipamentos);
+            lvEquipments.setAdapter(adapter);
+
+            //TODO: codigo para teste
+            if (equipamentos.size() == 0) {
+                equipamentos = getEquipsForTest();
+                adapter = new EquipamentoAdapter(MainActivity.this, equipamentos);
+                lvEquipments.setAdapter(adapter);
+            }
+
+        } catch (ExecutionException e) {
+            //throw new RuntimeException(e);
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            //throw new RuntimeException(e);
+            e.printStackTrace();
+        }
+        tv1.setText("");
+    }
+
+    private ArrayList<Equipamento> getEquipsForTest() {
+        //TODO: METODO PARA TESTE
+        ArrayList<Equipamento> listEquips = new ArrayList<Equipamento>();
+        listEquips.add(new Equipamento(1,"aa:aa:aa:aa:aa:aa"));
+        listEquips.add(new Equipamento(2,"bb:aa:aa:aa:aa:aa"));
+        listEquips.add(new Equipamento(3,"cc:aa:aa:aa:aa:aa"));
+        listEquips.add(new Equipamento(4,"dd:aa:aa:aa:aa:aa"));
+        listEquips.add(new Equipamento(5,"ee:aa:aa:aa:aa:aa"));
+
+        return listEquips;
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,27 +200,7 @@ public class MainActivity extends AppCompatActivity {
         binding.dummyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv1.setText("Loading...");
-                //AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last");
-                AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/equipment");
-
-                String returnJson = "";
-                try {
-                    returnJson = runner.execute().get();
-
-                    ArrayList<Equipamento> equipamentos = getEquipamentosFromJson(returnJson);
-                    ArrayAdapter adapter =  new EquipamentoAdapter(MainActivity.this, equipamentos);
-                    lvEquipments.setAdapter(adapter);
-
-                } catch (ExecutionException e) {
-                    //throw new RuntimeException(e);
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    //throw new RuntimeException(e);
-                    e.printStackTrace();
-                }
-                tv1.setText("");
-
+                carregarDados(tv1, lvEquipments);
 ;            }
         });
 
@@ -190,6 +218,10 @@ public class MainActivity extends AppCompatActivity {
                 adapter.clear();
             }
         });
+
+
+
+
 
     }
 
@@ -220,6 +252,19 @@ public class MainActivity extends AppCompatActivity {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100);
+/*
+        //Criando um timer para atualizar de tempos em tempos a lista de equipamentos
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    teste();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }},1000, 1000);*/
     }
 
     /*private void toggle() {
