@@ -16,6 +16,7 @@ import android.view.WindowInsets;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.monitordenivel.databinding.ActivityMainBinding;
 import com.example.monitordenivel.http.HttpHelper;
@@ -158,6 +159,11 @@ public class MainActivity extends AppCompatActivity {
                 String returnJson = "";
                 try {
                     returnJson = runner.execute().get();
+
+                    ArrayList<Equipamento> equipamentos = getEquipamentosFromJson(returnJson);
+                    ArrayAdapter adapter =  new EquipamentoAdapter(MainActivity.this, equipamentos);
+                    lvEquipments.setAdapter(adapter);
+
                 } catch (ExecutionException e) {
                     //throw new RuntimeException(e);
                     e.printStackTrace();
@@ -166,15 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                //O Json retornado trata-se de uma lisa de equipamentos
 
-                ArrayList<Equipamento> equipamentos = getEquipamentosFromJson(returnJson);
-                ArrayAdapter adapter =  new EquipamentoAdapter(MainActivity.this, equipamentos);
-                lvEquipments.setAdapter(adapter);
-
-
-                //TODO: Esse textView irá sumir
-                //tv1.setText(returnJson);
 ;            }
         });
 
@@ -195,10 +193,18 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Equipamento> listaEquipamentos = new ArrayList<Equipamento>();
 
         Gson gson = new Gson();
-        Type equipamentoListType = new TypeToken<List<Equipamento>>() {}.getType();
-        ArrayList<Equipamento> equipamentos = gson.fromJson(returnJson, equipamentoListType);
 
-        return equipamentos;
+        try {
+            Type equipamentoListType = new TypeToken<List<Equipamento>>() {
+            }.getType();
+            listaEquipamentos = gson.fromJson(returnJson, equipamentoListType);
+        } catch (Exception e){
+            e.printStackTrace();
+            //Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG);
+        }
+
+
+        return listaEquipamentos;
 
     }
 
