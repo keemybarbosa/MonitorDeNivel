@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+    /*private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             switch (motionEvent.getAction()) {
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         }
-    };
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toggle();
+                //toggle();
             }
         });
 
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                     //throw new RuntimeException(e);
                     e.printStackTrace();
                 }
-
+                tv1.setText("");
 
 ;            }
         });
@@ -180,9 +180,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //
 
                 //tv1.setText("JSON");
                 ArrayAdapter adapter = (ArrayAdapter) lvEquipments.getAdapter();
+                if (adapter == null){
+                    adapter = new EquipamentoAdapter(MainActivity.this, new ArrayList<Equipamento>());
+                }
                 adapter.clear();
             }
         });
@@ -200,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
             listaEquipamentos = gson.fromJson(returnJson, equipamentoListType);
         } catch (Exception e){
             e.printStackTrace();
-            //Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
 
@@ -218,15 +222,15 @@ public class MainActivity extends AppCompatActivity {
         delayedHide(100);
     }
 
-    private void toggle() {
+    /*private void toggle() {
         if (mVisible) {
             hide();
         } else {
             show();
         }
-    }
+    }*/
 
-    private void hide() {
+    /*private void hide() {
         // Hide UI first
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -238,9 +242,9 @@ public class MainActivity extends AppCompatActivity {
         // Schedule a runnable to remove the status and navigation bar after a delay
         mHideHandler.removeCallbacks(mShowPart2Runnable);
         mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
-    }
+    }*/
 
-    private void show() {
+    /*private void show() {
         // Show the system bar
         if (Build.VERSION.SDK_INT >= 30) {
             mContentView.getWindowInsetsController().show(
@@ -254,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         // Schedule a runnable to display UI elements after a delay
         mHideHandler.removeCallbacks(mHidePart2Runnable);
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
-    }
+    }*/
 
     /**
      * Schedules a call to hide() in delay milliseconds, canceling any
