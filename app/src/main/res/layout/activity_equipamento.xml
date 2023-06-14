@@ -24,6 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/eq_container_header"
         android:text="Equipamento"
+        android:textSize="@dimen/font_titulo1_size"
         />
     <Button
         android:id="@+id/btnVoltar"
