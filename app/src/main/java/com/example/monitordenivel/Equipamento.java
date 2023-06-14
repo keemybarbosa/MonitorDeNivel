@@ -3,13 +3,23 @@ package com.example.monitordenivel;
 public class Equipamento {
     private int id;
     private String mac;
-    private int volume;
+    private int volume; //Volume em litros
     private int emptycm;
     private int fullcm;
 
-    public Equipamento(int id, String mac){
+    private String name; //nome do equipamento
+
+    private int measure; //Medida vinda do equipamento
+
+    public Equipamento(int id, String mac, int volume, int emptycm, int fullcm, String name, int measure){
         this.id = id;
         this.mac = mac;
+        this.volume = volume;
+        this.emptycm = emptycm;
+        this.fullcm = fullcm;
+        this.name = name;
+        this.measure = measure;
+
     }
 
     public int getId() {
@@ -51,4 +61,33 @@ public class Equipamento {
     public void setFullcm(int fullcm) {
         this.fullcm = fullcm;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getMeasure() {
+        return measure;
+    }
+
+    public void setMeasure(int measure) {
+        this.measure = measure;
+    }
+
+    public String getPercentual(){
+        int volumecm = this.emptycm - this.measure;
+        int full = this.emptycm - this.fullcm;
+        double volumePercent = 0;
+
+        if (full != 0) {
+            volumePercent = (double)volumecm / (double)full;
+        }
+        String result = String.format("%.2f%%", volumePercent * 100);
+        return result ;
+    }
+
 }
