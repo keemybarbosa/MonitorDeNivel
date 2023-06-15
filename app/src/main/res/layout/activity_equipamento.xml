@@ -35,6 +35,55 @@
         app:layout_constraintTop_toTopOf="parent"
 
         />
+    <Button
+        android:id="@+id/btnEditar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        app:layout_constraintEnd_toStartOf="@id/btnVoltar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="10dp"
+
+        />
+
+    <View
+        android:id="@+id/vwEquipamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/lblEquipamento"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/container_equipamento"
+        android:layout_marginTop="20dp"
+        app:layout_constraintWidth="200dp"
+        app:layout_constraintHeight="200dp"
+
+        />
+    <TextView
+        android:id="@+id/tvEqpName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XXX"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="@id/vwEquipamento"
+        app:layout_constraintStart_toStartOf="@id/vwEquipamento"
+        app:layout_constraintWidth="200dp"
+        android:textAlignment="center"
+        />
+
+    <TextView
+        android:id="@+id/tvEqpPercentual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100%"
+        android:layout_marginTop="55dp"
+        app:layout_constraintTop_toTopOf="@id/vwEquipamento"
+        app:layout_constraintStart_toStartOf="@id/vwEquipamento"
+        app:layout_constraintWidth="200dp"
+        android:textAlignment="center"
+        android:textSize="48dp"
+        />
+
     <TextView
         android:id="@+id/tvEqpMeasure"
         android:layout_width="wrap_content"
@@ -43,7 +92,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lblEquipamento"/>
+        app:layout_constraintTop_toBottomOf="@id/vwEquipamento"/>
     <TextView
         android:id="@+id/tvEqpId"
         android:layout_width="wrap_content"
@@ -53,15 +102,7 @@
         android:layout_marginLeft="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEqpMeasure"/>
-    <TextView
-        android:id="@+id/tvEqpName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nome: "
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEqpId"/>
+
     <TextView
         android:id="@+id/tvEqpMac"
         android:layout_width="wrap_content"
@@ -70,7 +111,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEqpName"/>
+        app:layout_constraintTop_toBottomOf="@id/tvEqpId"/>
     <TextView
         android:id="@+id/tvEqpVolume"
         android:layout_width="wrap_content"

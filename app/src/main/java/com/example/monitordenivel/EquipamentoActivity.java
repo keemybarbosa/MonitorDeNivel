@@ -33,7 +33,13 @@ public class EquipamentoActivity extends AppCompatActivity {
 
         equipamento = new Equipamento(1,"aa:aa:aa:aa:aa:aa",10000,100,30,"RES01", 50);
 
-
+        binding.tvEqpId.setText("Id: " + equipamento.getId());
+        binding.tvEqpName.setText("" + equipamento.getName());
+        binding.tvEqpMeasure.setText("Measure: " + equipamento.getMeasure());
+        binding.tvEqpMac.setText("Mac: " + equipamento.getMac());
+        binding.tvEqpVolume.setText("Volume: " + equipamento.getVolume() + "L");
+        binding.tvEqpEmpty.setText("Distância Vazio: " + equipamento.getEmptycm() + "cm");
+        binding.tvEqpFull.setText("Distância Cheio: " + equipamento.getFullcm() + "cm");
 
     }
 }
