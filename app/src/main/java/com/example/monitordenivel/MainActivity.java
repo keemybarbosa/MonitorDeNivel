@@ -58,31 +58,31 @@ public class MainActivity extends AppCompatActivity {
         binding.vwEquip1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarEquipamento(1);
+                carregarEquipamento(0);
             }
         });
         binding.vwEquip2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarEquipamento(2);
+                carregarEquipamento(1);
             }
         });
         binding.vwEquip3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarEquipamento(3);
+                carregarEquipamento(2);
             }
         });
         binding.vwEquip4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarEquipamento(4);
+                carregarEquipamento(3);
             }
         });
         binding.vwEquip5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarEquipamento(5);
+                carregarEquipamento(4);
             }
         });
 
@@ -96,19 +96,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void carregarEquipamento(int i) {
-        int idEquipamento = equipamentos.get(i).getId();
+
+        if (i >= equipamentos.size()) return;
+
         Intent intent = new Intent(getApplicationContext(), EquipamentoActivity.class);
         //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("idEquipamento",equipamentos.get(i).getId() +"");
+        intent.putExtra("mac", equipamentos.get(i).getMac() + "");
         startActivity(intent);
-        intent.putExtra("idEquipamento",idEquipamento +"");
+
         //overridePendingTransition (0, 0); //Prevent Black Screen
         finish();
     }
 
     public void carregarDados(){
         //AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last");
-        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/equipment");
+        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/equipment", new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(String result) {
+                equipamentos = getEquipamentosFromJson(result);
+                //TODO: codigo para teste
+                if (equipamentos.size() == 0) {
+                    equipamentos = getEquipsForTest();
+                }
 
+                int i = 0;
+                for (Equipamento eq : equipamentos) {
+                    //TODO:trocar pelo name do equipamento quando disponível
+                    tvName.get(i).setText(equipamentos.get(i).getMac());
+                    tvPercentual.get(i).setText(equipamentos.get(i).getPercentual());
+                    i++;
+                }
+            }
+
+            @Override
+            public void onTaskFailed(Exception e) {
+
+            }
+        });
+
+        runner.execute();
+/*
         String returnJson = "";
         try {
             returnJson = runner.execute().get();
@@ -121,7 +149,8 @@ public class MainActivity extends AppCompatActivity {
 
             int i = 0;
             for (Equipamento eq : equipamentos) {
-                tvName.get(i).setText(equipamentos.get(i).getName());
+                //TODO:trocar pelo name do equipamento quando disponível
+                tvName.get(i).setText(equipamentos.get(i).getMac());
                 tvPercentual.get(i).setText(equipamentos.get(i).getPercentual());
                 i++;
             }
@@ -134,7 +163,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             //throw new RuntimeException(e);
             e.printStackTrace();
-        }
+
+        }*/
     }
 
     private ArrayList<Equipamento> getEquipamentosFromJson(String returnJson) {
@@ -160,11 +190,11 @@ public class MainActivity extends AppCompatActivity {
         //TODO: METODO PARA TESTE
         ArrayList<Equipamento> listEquips = new ArrayList<Equipamento>();
 
-        listEquips.add(new Equipamento(1,"aa:aa:aa:aa:aa:aa",1000,250,40,"RES1", MathUtils.numeroAleatorio(40,250)));
-        listEquips.add(new Equipamento(2,"bb:aa:aa:aa:aa:aa",1000,180,36,"RES2",MathUtils.numeroAleatorio(36,180)));
-        listEquips.add(new Equipamento(3,"cc:aa:aa:aa:aa:aa",1000,100,48,"RES3",MathUtils.numeroAleatorio(48,100)));
-        listEquips.add(new Equipamento(4,"dd:aa:aa:aa:aa:aa",1000,180,50,"RES4",MathUtils.numeroAleatorio(50,180)));
-        listEquips.add(new Equipamento(5,"ee:aa:aa:aa:aa:aa",1000,70,10,"RES5",MathUtils.numeroAleatorio(10,70)));
+        listEquips.add(new Equipamento(1,"aa:aa:aa:aa:aa:aa",1000,250,40,"RES95", MathUtils.numeroAleatorio(40,250)));
+        listEquips.add(new Equipamento(2,"bb:aa:aa:aa:aa:aa",1000,180,36,"RES96",MathUtils.numeroAleatorio(36,180)));
+        listEquips.add(new Equipamento(3,"cc:aa:aa:aa:aa:aa",1000,100,48,"RES97",MathUtils.numeroAleatorio(48,100)));
+        listEquips.add(new Equipamento(4,"dd:aa:aa:aa:aa:aa",1000,180,50,"RES98",MathUtils.numeroAleatorio(50,180)));
+        listEquips.add(new Equipamento(5,"ee:aa:aa:aa:aa:aa",1000,70,10,"RES99",MathUtils.numeroAleatorio(10,70)));
 
         return listEquips;
 

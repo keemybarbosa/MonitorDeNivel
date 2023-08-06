@@ -121,9 +121,28 @@ public class MainAntigaActivity extends AppCompatActivity {
     public void carregarDados(TextView tv1, ListView lvEquipments){
         tv1.setText("Loading...");
         //AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last");
-        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/equipment");
+        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/equipment", new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(String result) {
+                ArrayList<Equipamento> equipamentos = getEquipamentosFromJson(result);
+                ArrayAdapter adapter =  new EquipamentoAdapter(MainAntigaActivity.this, equipamentos);
+                lvEquipments.setAdapter(adapter);
 
-        String returnJson = "";
+                //TODO: codigo para teste
+                if (equipamentos.size() == 0) {
+                    equipamentos = getEquipsForTest();
+                    adapter = new EquipamentoAdapter(MainAntigaActivity.this, equipamentos);
+                    lvEquipments.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onTaskFailed(Exception e) {
+                Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        /*String returnJson = "";
         try {
             returnJson = runner.execute().get();
 
@@ -144,7 +163,7 @@ public class MainAntigaActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             //throw new RuntimeException(e);
             e.printStackTrace();
-        }
+        }*/
         tv1.setText("");
     }
 

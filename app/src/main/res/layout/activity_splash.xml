@@ -13,5 +13,5 @@
         android:id="@+id/imageView"
         android:layout_width="266dp"
         android:layout_height="364dp"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo2" />
 </RelativeLayout>
