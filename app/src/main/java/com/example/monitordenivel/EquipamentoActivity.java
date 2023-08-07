@@ -62,7 +62,7 @@ public class EquipamentoActivity extends AppCompatActivity {
         runnable = new Runnable(){
             @Override
             public void run() {
-                buscarMedida();
+                buscarMedida(equipamento.getMac());
 
                 updateEquipmentInfo(true);
 
@@ -103,10 +103,11 @@ public class EquipamentoActivity extends AppCompatActivity {
 
     /**Método que executa requisição REST no intuituo de obter o dado de medida de um equipamento.
      * @author Keemy Barbosa
+     * @param mac String - mac do equipamento a ser localizado
      * @return null - Sem retorno
      */
-    public void buscarMedida(){
-        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last", new AsyncTaskCallback() {
+    public void buscarMedida(String mac){
+        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last/" + mac, new AsyncTaskCallback() {
             @Override
             public void onTaskCompleted(String result) {
                 try {
@@ -122,7 +123,7 @@ public class EquipamentoActivity extends AppCompatActivity {
 
             @Override
             public void onTaskFailed(Exception e) {
-
+                System.out.println("teste");
             }
         });
 
