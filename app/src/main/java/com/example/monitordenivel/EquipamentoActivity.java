@@ -32,10 +32,10 @@ public class EquipamentoActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-
         binding = ActivityEquipamentoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Botão de retorno para tela principal
         binding.btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,16 +48,17 @@ public class EquipamentoActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: Carregar equipamento vindo da tela anterior
 
         int idEquipamento = Integer.parseInt(getIntent().getStringExtra("idEquipamento"));
         String mac = getIntent().getStringExtra("mac");
 
+        //TODO: Buscar no banco de dados as informações do equipamento selecionado
         equipamento = new Equipamento(idEquipamento,mac,9999,999,99,"RES99", 0);
 
         updateEquipmentInfo(false);
 
 
+        //Runnable responsável por recuperar informações de medidas do dispositivo
         runnable = new Runnable(){
             @Override
             public void run() {
@@ -74,6 +75,12 @@ public class EquipamentoActivity extends AppCompatActivity {
 
     }
 
+    /**Método que atualiza os dados na tela de equipamentos, estes dados devem estar
+     * previamente inseridos na variável da classe chamada equipamento.
+     * @author Keemy Barbosa
+     * @param updatePercentual bool - Inidica se é necessário atualizar o percentual.
+     * @return null - Sem retorno
+     */
     private void updateEquipmentInfo(boolean updatePercentual) {
 
         if (updatePercentual)
@@ -93,12 +100,11 @@ public class EquipamentoActivity extends AppCompatActivity {
         binding.tvEqpFull.setText("Distância Cheio: " + equipamento.getFullcm() + "cm");
     }
 
-    private int getRandomNumber(int min, int max) {
-        // Gerar um número randômico entre min e max (inclusive)
-        Random random = new Random();
-        return random.nextInt(max - min + 1) + min;
-    }
 
+    /**Método que executa requisição REST no intuituo de obter o dado de medida de um equipamento.
+     * @author Keemy Barbosa
+     * @return null - Sem retorno
+     */
     public void buscarMedida(){
         AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last", new AsyncTaskCallback() {
             @Override
@@ -122,36 +128,6 @@ public class EquipamentoActivity extends AppCompatActivity {
 
         runner.execute();
 
-        /*String returnJson = "";
-        try {
-            returnJson = runner.execute().get();
-
-            System.out.println(returnJson);
-
-            if (returnJson.trim() == ""){
-                return;
-            }
-            //Json Parsing
-            try{
-                JSONObject jsonObject = new JSONObject(returnJson);
-                int measure = jsonObject.getInt("measure");
-                equipamento.setMeasure(measure);
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-
-
-        } catch (ExecutionException e) {
-            //throw new RuntimeException(e);
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            //throw new RuntimeException(e);
-            e.printStackTrace();
-        }*/
     }
 
 }
