@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void carregarEquipamento(int i) {
 
-        if (i >= equipamentos.size()) return;
+        if ((equipamentos == null) || (i >= equipamentos.size())) return;
 
         Intent intent = new Intent(getApplicationContext(), EquipamentoActivity.class);
         //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
