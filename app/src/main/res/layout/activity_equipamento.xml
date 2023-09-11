@@ -150,7 +150,7 @@
         android:textColor="#cc0000"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEqpFull"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvEqpEmpty"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

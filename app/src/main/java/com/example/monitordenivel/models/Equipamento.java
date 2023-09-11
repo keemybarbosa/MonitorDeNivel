@@ -97,4 +97,20 @@ public class Equipamento {
         return sPercent;
     }
 
+    public String getPercentualInfo(){
+        Double dPercentual = getPercentual();
+
+        String retorno = "";
+
+        if (dPercentual < 0){
+            retorno = "Erro!";
+        } else if (dPercentual > 100.0){
+            retorno = "Erro!";
+        } else {
+            retorno = getPercentualAsString();
+        }
+
+        return retorno;
+    }
+
 }

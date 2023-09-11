@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 for (Equipamento eq : equipamentos) {
                     //TODO:trocar pelo name do equipamento quando disponível
                     tvName.get(i).setText(equipamentos.get(i).getMac());
-                    tvPercentual.get(i).setText(equipamentos.get(i).getPercentualAsString());
+                    tvPercentual.get(i).setText(equipamentos.get(i).getPercentualInfo());
                     i++;
                 }
             }
