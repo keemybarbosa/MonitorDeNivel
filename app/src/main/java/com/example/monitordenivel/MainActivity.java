@@ -104,13 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 int i = 0;
                 for (Equipamento eq : equipamentos) {
 
-
-                    //TODO: obtendo valor randomico. corrigir!
-                    eq.setEmptycm(50);
-                    eq.setFullcm(7000);
                     eq.setMeasure(new Random().nextInt(6000));
-
-
 
                     atualizarEquipamentoTela(i);
                     i++;
