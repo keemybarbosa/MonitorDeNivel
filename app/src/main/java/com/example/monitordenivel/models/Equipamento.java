@@ -78,7 +78,7 @@ public class Equipamento {
         this.measure = measure;
     }
 
-    public String getPercentual(){
+    public Double getPercentual(){
         int volumecm = this.emptycm - this.measure;
         int full = this.emptycm - this.fullcm;
         double volumePercent = 0;
@@ -86,8 +86,15 @@ public class Equipamento {
         if (full != 0) {
             volumePercent = (double)volumecm / (double)full;
         }
-        String result = String.format("%.2f%%", volumePercent * 100);
-        return result ;
+
+
+
+        return volumePercent * 100 ;
+    }
+
+    public String getPercentualAsString(){
+        String sPercent = String.format("%.2f", getPercentual()) + "%";
+        return sPercent;
     }
 
 }

@@ -88,7 +88,7 @@
         android:id="@+id/tvEqpMeasure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Measure: "
+        android:text="Leitura: "
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -121,15 +121,7 @@
         android:layout_marginLeft="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEqpMac"/>
-    <TextView
-        android:id="@+id/tvEqpEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Distância Vazio: "
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEqpVolume"/>
+
     <TextView
         android:id="@+id/tvEqpFull"
         android:layout_width="wrap_content"
@@ -138,7 +130,27 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEqpEmpty"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvEqpVolume"/>
+    <TextView
+        android:id="@+id/tvEqpEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distância Vazio: "
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEqpFull"/>
+    <TextView
+        android:id="@+id/tvEqpMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="#cc0000"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEqpFull"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

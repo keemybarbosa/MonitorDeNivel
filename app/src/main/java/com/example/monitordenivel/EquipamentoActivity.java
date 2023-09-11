@@ -14,6 +14,7 @@ import com.example.monitordenivel.models.Equipamento;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
@@ -50,10 +51,16 @@ public class EquipamentoActivity extends AppCompatActivity {
 
 
         int idEquipamento = Integer.parseInt(getIntent().getStringExtra("idEquipamento"));
-        String mac = getIntent().getStringExtra("mac");
+
+
+        //Obtendo variáveis passadas pro parâmetro
+        int pVolume = Integer.parseInt(getIntent().getStringExtra("volume"));
+        int pEmptycm = Integer.parseInt(getIntent().getStringExtra("emptycm"));
+        int pFullcm = Integer.parseInt(getIntent().getStringExtra("fullcm"));
+        String pMac = getIntent().getStringExtra("mac");
 
         //TODO: Buscar no banco de dados as informações do equipamento selecionado
-        equipamento = new Equipamento(idEquipamento,mac,9999,999,99,"RES99", 0);
+        equipamento = new Equipamento(idEquipamento,pMac,pVolume,pEmptycm,pFullcm,"RES99", 0);
 
         updateEquipmentInfo(false);
 
@@ -83,21 +90,38 @@ public class EquipamentoActivity extends AppCompatActivity {
      */
     private void updateEquipmentInfo(boolean updatePercentual) {
 
-        if (updatePercentual)
-            binding.tvEqpPercentual.setText(equipamento.getPercentual());
+        DecimalFormat formatter = new DecimalFormat("#0.0");
+
+        if (equipamento.getMeasure() == 0) return;
+
+        if (updatePercentual) {
+            Double dPercentual = equipamento.getPercentual();
+
+            if (dPercentual < 0){
+                binding.tvEqpPercentual.setText("Erro!");
+                binding.tvEqpMessage.setText("Medida capturada excede fundo reservatório!");
+            } else if (dPercentual > 100.0){
+                binding.tvEqpPercentual.setText("Erro!");
+                binding.tvEqpMessage.setText("Transbordo!");
+            } else {
+                binding.tvEqpPercentual.setText(equipamento.getPercentualAsString());
+                binding.tvEqpMessage.setText("");
+            }
+
+
+        }
 
 
         //TODO: exibindo o mac no lugar do nome por enquanto
         binding.tvEqpName.setText("" + equipamento.getMac());
 
-
         binding.tvEqpId.setText("Id: " + equipamento.getId());
 
-        binding.tvEqpMeasure.setText("Measure: " + equipamento.getMeasure());
+        binding.tvEqpMeasure.setText("Leitura: " + formatter.format(equipamento.getMeasure()/10.0f) + "cm");
         binding.tvEqpMac.setText("Mac: " + equipamento.getMac());
         binding.tvEqpVolume.setText("Volume: " + equipamento.getVolume() + "L");
-        binding.tvEqpEmpty.setText("Distância Vazio: " + equipamento.getEmptycm() + "cm");
-        binding.tvEqpFull.setText("Distância Cheio: " + equipamento.getFullcm() + "cm");
+        binding.tvEqpEmpty.setText("Distância Vazio: " + formatter.format(equipamento.getEmptycm()/10.0f) + "cm");
+        binding.tvEqpFull.setText("Distância Cheio: " + formatter.format(equipamento.getFullcm()/10.0f) + "cm");
     }
 
 
@@ -107,6 +131,7 @@ public class EquipamentoActivity extends AppCompatActivity {
      * @return null - Sem retorno
      */
     public void buscarMedida(String mac){
+
         AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last/" + mac, new AsyncTaskCallback() {
             @Override
             public void onTaskCompleted(String result) {

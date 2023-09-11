@@ -103,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
         //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("idEquipamento",equipamentos.get(i).getId() +"");
         intent.putExtra("mac", equipamentos.get(i).getMac() + "");
+        intent.putExtra("volume", equipamentos.get(i).getVolume() + "");
+        intent.putExtra("emptycm", equipamentos.get(i).getEmptycm() + "");
+        intent.putExtra("fullcm", equipamentos.get(i).getFullcm() + "");
+
         startActivity(intent);
 
         //overridePendingTransition (0, 0); //Prevent Black Screen
@@ -124,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 for (Equipamento eq : equipamentos) {
                     //TODO:trocar pelo name do equipamento quando disponível
                     tvName.get(i).setText(equipamentos.get(i).getMac());
-                    tvPercentual.get(i).setText(equipamentos.get(i).getPercentual());
+                    tvPercentual.get(i).setText(equipamentos.get(i).getPercentualAsString());
                     i++;
                 }
             }
