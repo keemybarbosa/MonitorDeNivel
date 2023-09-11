@@ -125,6 +125,7 @@
         android:text="REFRESH"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
 
         />
 

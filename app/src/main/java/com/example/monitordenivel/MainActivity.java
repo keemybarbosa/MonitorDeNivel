@@ -16,6 +16,9 @@ import com.example.monitordenivel.utils.MathUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<Equipamento> equipamentos = null;
+    public ArrayList<Equipamento> equipamentos = null;
     ArrayList<TextView> tvName = new ArrayList<TextView>();
     ArrayList<TextView> tvPercentual = new ArrayList<TextView>();
 
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 int i = 0;
                 for (Equipamento eq : equipamentos) {
 
-                    eq.setMeasure(new Random().nextInt(6000));
+                    obterMeasure(eq.getMac());
 
                     atualizarEquipamentoTela(i);
                     i++;
@@ -117,6 +120,37 @@ public class MainActivity extends AppCompatActivity {
         //Na primeira vez será executado após 5 segundos
         handler.postDelayed(runEquipments,5000);
 
+
+    }
+
+    private void obterMeasure(String mac) {
+
+        int retorno;
+        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last/" + mac, new AsyncTaskCallback() {
+            @Override
+            public void onTaskCompleted(String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    int measure = jsonObject.getInt("measure");
+                    for(Equipamento eq : equipamentos){
+                        if(eq.getMac().equals(mac)){
+                            eq.setMeasure(measure);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    //throw new RuntimeException(e);
+                }
+
+            }
+
+            @Override
+            public void onTaskFailed(Exception e) {
+                System.out.println("teste");
+            }
+        });
+
+        runner.execute();
 
     }
 
