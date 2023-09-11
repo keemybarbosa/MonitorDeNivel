@@ -140,35 +140,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         runner.execute();
-/*
-        String returnJson = "";
-        try {
-            returnJson = runner.execute().get();
 
-            equipamentos = getEquipamentosFromJson(returnJson);
-            //TODO: codigo para teste
-            if (equipamentos.size() == 0) {
-                equipamentos = getEquipsForTest();
-            }
-
-            int i = 0;
-            for (Equipamento eq : equipamentos) {
-                //TODO:trocar pelo name do equipamento quando disponível
-                tvName.get(i).setText(equipamentos.get(i).getMac());
-                tvPercentual.get(i).setText(equipamentos.get(i).getPercentual());
-                i++;
-            }
-
-
-
-        } catch (ExecutionException e) {
-            //throw new RuntimeException(e);
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            //throw new RuntimeException(e);
-            e.printStackTrace();
-
-        }*/
     }
 
     private ArrayList<Equipamento> getEquipamentosFromJson(String returnJson) {
