@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<TextView> tvPercentual = new ArrayList<TextView>();
 
     ArrayList<View> viewEquipamento = new ArrayList<View>();
+
+
+    private Handler handler;
+    //Variável será utilizada para um evento de atualização de equipamentos que estão na tela
+    private Runnable runEquipments;
 
 
     @Override
@@ -51,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         binding.btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarDados();
+                //carregarDados();
             }
         });
 
@@ -85,6 +92,36 @@ public class MainActivity extends AppCompatActivity {
                 carregarEquipamento(4);
             }
         });
+
+
+        handler = new Handler();
+        //Configuração de um Runnable que verifica a leitura dos dispositivos
+        // que estão na tela principal
+        runEquipments = new Runnable() {
+            @Override
+            public void run() {
+                carregarDados();
+                int i = 0;
+                for (Equipamento eq : equipamentos) {
+
+
+                    //TODO: obtendo valor randomico. corrigir!
+                    eq.setEmptycm(50);
+                    eq.setFullcm(7000);
+                    eq.setMeasure(new Random().nextInt(6000));
+
+
+
+                    atualizarEquipamentoTela(i);
+                    i++;
+                }
+
+                //Reexecuta após 1.5 segundos
+                handler.postDelayed(this,5000);
+            }
+        };
+        //Na primeira vez será executado após 5 segundos
+        handler.postDelayed(runEquipments,5000);
 
 
     }
@@ -123,14 +160,13 @@ public class MainActivity extends AppCompatActivity {
                 if (equipamentos.size() == 0) {
                     equipamentos = getEquipsForTest();
                 }
-
+/*
                 int i = 0;
                 for (Equipamento eq : equipamentos) {
                     //TODO:trocar pelo name do equipamento quando disponível
-                    tvName.get(i).setText(equipamentos.get(i).getMac());
-                    tvPercentual.get(i).setText(equipamentos.get(i).getPercentualInfo());
+                    atualizarEquipamentoTela(i);
                     i++;
-                }
+                }*/
             }
 
             @Override
@@ -141,6 +177,11 @@ public class MainActivity extends AppCompatActivity {
 
         runner.execute();
 
+    }
+
+    public void atualizarEquipamentoTela(int i){
+        tvName.get(i).setText(equipamentos.get(i).getMac());
+        tvPercentual.get(i).setText(equipamentos.get(i).getPercentualInfo());
     }
 
     private ArrayList<Equipamento> getEquipamentosFromJson(String returnJson) {
