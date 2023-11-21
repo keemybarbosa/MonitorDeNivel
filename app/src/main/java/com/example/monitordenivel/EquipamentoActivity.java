@@ -58,9 +58,10 @@ public class EquipamentoActivity extends AppCompatActivity {
         int pEmptycm = Integer.parseInt(getIntent().getStringExtra("emptycm"));
         int pFullcm = Integer.parseInt(getIntent().getStringExtra("fullcm"));
         String pMac = getIntent().getStringExtra("mac");
+        int pMeasure = Integer.parseInt(getIntent().getStringExtra("measure"));
 
         //TODO: Buscar no banco de dados as informações do equipamento selecionado
-        equipamento = new Equipamento(idEquipamento,pMac,pVolume,pEmptycm,pFullcm,"RES99", 0);
+        equipamento = new Equipamento(idEquipamento,pMac,pVolume,pEmptycm,pFullcm,"RES99", pMeasure);
 
         updateEquipmentInfo(false);
 
@@ -77,7 +78,7 @@ public class EquipamentoActivity extends AppCompatActivity {
             }
         };
 
-        handler.postDelayed(runnable,1000);
+        handler.postDelayed(runnable,100);
 
 
     }
@@ -92,16 +93,16 @@ public class EquipamentoActivity extends AppCompatActivity {
 
         DecimalFormat formatter = new DecimalFormat("#0.0");
 
-        if (equipamento.getMeasure() == 0) return;
+        //if (equipamento.getMeasure() == 0) return;
 
         if (updatePercentual) {
             Double dPercentual = equipamento.getPercentual();
 
             if (dPercentual < 0){
-                binding.tvEqpPercentual.setText("Erro!");
+                binding.tvEqpPercentual.setText("Lmt Exced");
                 binding.tvEqpMessage.setText("Medida capturada excede fundo reservatório!");
             } else if (dPercentual > 100.0){
-                binding.tvEqpPercentual.setText("Erro!");
+                binding.tvEqpPercentual.setText("Transb.");
                 binding.tvEqpMessage.setText("Transbordo!");
             } else {
                 binding.tvEqpPercentual.setText(equipamento.getPercentualAsString());

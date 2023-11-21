@@ -102,10 +102,12 @@ public class Equipamento {
 
         String retorno = "";
 
+
+        if (measure == 0) return "-";
         if (dPercentual < 0){
-            retorno = "Erro!";
+            retorno = "Lmt Exced";
         } else if (dPercentual > 100.0){
-            retorno = "Erro!";
+            retorno = "Transb.";
         } else {
             retorno = getPercentualAsString();
         }

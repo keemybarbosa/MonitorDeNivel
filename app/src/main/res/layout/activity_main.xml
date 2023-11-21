@@ -133,13 +133,13 @@
         android:id="@+id/tvName1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/vwEquip1"
-        app:layout_constraintStart_toStartOf="@id/vwEquip1"
-        android:text="-"
-        app:layout_constraintWidth="150dp"
-        android:textAlignment="center"
         android:layout_marginTop="15dp"
-        />
+        android:text="Carregando..."
+        android:textAlignment="center"
+        android:textSize="@dimen/font_equipment_size"
+        app:layout_constraintStart_toStartOf="@id/vwEquip1"
+        app:layout_constraintTop_toTopOf="@id/vwEquip1"
+        app:layout_constraintWidth="150dp" />
 
     <TextView
         android:id="@+id/tvName2"
@@ -148,6 +148,7 @@
         app:layout_constraintTop_toTopOf="@id/vwEquip2"
         app:layout_constraintStart_toStartOf="@id/vwEquip2"
         android:text="-"
+        android:textSize="@dimen/font_equipment_size"
         app:layout_constraintWidth="150dp"
         android:textAlignment="center"
         android:layout_marginTop="15dp"
@@ -160,6 +161,7 @@
         app:layout_constraintTop_toTopOf="@id/vwEquip3"
         app:layout_constraintStart_toStartOf="@id/vwEquip3"
         android:text="-"
+        android:textSize="@dimen/font_equipment_size"
         app:layout_constraintWidth="150dp"
         android:textAlignment="center"
         android:layout_marginTop="15dp"
@@ -172,6 +174,7 @@
         app:layout_constraintTop_toTopOf="@id/vwEquip4"
         app:layout_constraintStart_toStartOf="@id/vwEquip4"
         android:text="-"
+        android:textSize="@dimen/font_equipment_size"
         app:layout_constraintWidth="150dp"
         android:textAlignment="center"
         android:layout_marginTop="15dp"
@@ -184,6 +187,7 @@
         app:layout_constraintTop_toTopOf="@id/vwEquip5"
         app:layout_constraintStart_toStartOf="@id/vwEquip5"
         android:text="-"
+        android:textSize="@dimen/font_equipment_size"
         app:layout_constraintWidth="150dp"
         android:textAlignment="center"
         android:layout_marginTop="15dp"
@@ -193,14 +197,13 @@
         android:id="@+id/tvPercentual1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvName1"
-        app:layout_constraintStart_toStartOf="@id/vwEquip1"
-        android:text="-"
-        app:layout_constraintWidth="150dp"
-        android:textAlignment="center"
-        android:textSize="@dimen/font_percentual_size"
         android:layout_marginTop="@dimen/percentual_margintop"
-        />
+        android:text="100,00%"
+        android:textAlignment="center"
+        android:textSize="@dimen/font_equipmentpercent_size"
+        app:layout_constraintStart_toStartOf="@id/vwEquip1"
+        app:layout_constraintTop_toBottomOf="@id/tvName1"
+        app:layout_constraintWidth="150dp" />
 
     <TextView
         android:id="@+id/tvPercentual2"
@@ -211,7 +214,7 @@
         android:text="-"
         app:layout_constraintWidth="150dp"
         android:textAlignment="center"
-        android:textSize="@dimen/font_percentual_size"
+        android:textSize="@dimen/font_equipmentpercent_size"
         android:layout_marginTop="@dimen/percentual_margintop"
         />
 
@@ -224,7 +227,7 @@
         android:text="-"
         app:layout_constraintWidth="150dp"
         android:textAlignment="center"
-        android:textSize="@dimen/font_percentual_size"
+        android:textSize="@dimen/font_equipmentpercent_size"
         android:layout_marginTop="@dimen/percentual_margintop"
         />
 
@@ -237,7 +240,7 @@
         android:text="-"
         app:layout_constraintWidth="150dp"
         android:textAlignment="center"
-        android:textSize="@dimen/font_percentual_size"
+        android:textSize="@dimen/font_equipmentpercent_size"
         android:layout_marginTop="@dimen/percentual_margintop"
         />
 
@@ -250,7 +253,7 @@
         android:text="-"
         app:layout_constraintWidth="150dp"
         android:textAlignment="center"
-        android:textSize="@dimen/font_percentual_size"
+        android:textSize="@dimen/font_equipmentpercent_size"
         android:layout_marginTop="@dimen/percentual_margintop"
         />
 

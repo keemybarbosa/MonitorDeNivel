@@ -38,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     //Variável será utilizada para um evento de atualização de equipamentos que estão na tela
     private Runnable runEquipments;
 
+    public boolean stopLoad = false;
+
+    public int measurePending = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,17 +105,30 @@ public class MainActivity extends AppCompatActivity {
         //Configuração de um Runnable que verifica a leitura dos dispositivos
         // que estão na tela principal
         runEquipments = new Runnable() {
+
+
             @Override
             public void run() {
                 carregarDados();
+                stopLoad = true;
                 int i = 0;
-                for (Equipamento eq : equipamentos) {
+                //try {
+                try {
+                    for (Equipamento eq : equipamentos) {
 
-                    obterMeasure(eq.getMac());
+                        if (eq != null) {
+                            obterMeasure(eq.getMac());
+                            atualizarEquipamentoTela(i);
+                        }
+                        i++;
+                    }
+                } catch (Exception e){
 
-                    atualizarEquipamentoTela(i);
-                    i++;
                 }
+
+                    if (measurePending == 0){
+                        stopLoad = false;
+                    }
 
                 //Reexecuta após 1.5 segundos
                 handler.postDelayed(this,5000);
@@ -125,10 +142,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void obterMeasure(String mac) {
 
-        int retorno;
+        measurePending++;
         AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last/" + mac, new AsyncTaskCallback() {
             @Override
             public void onTaskCompleted(String result) {
+                measurePending--;
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     int measure = jsonObject.getInt("measure");
@@ -163,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
     private void carregarEquipamento(int i) {
 
         if ((equipamentos == null) || (i >= equipamentos.size())) return;
+        if (equipamentos.get(i).getMac().equals("")) return;
 
         Intent intent = new Intent(getApplicationContext(), EquipamentoActivity.class);
         //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -171,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("volume", equipamentos.get(i).getVolume() + "");
         intent.putExtra("emptycm", equipamentos.get(i).getEmptycm() + "");
         intent.putExtra("fullcm", equipamentos.get(i).getFullcm() + "");
+
+        intent.putExtra("measure", equipamentos.get(i).getMeasure() + "");
 
         startActivity(intent);
 
@@ -184,17 +205,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTaskCompleted(String result) {
                 equipamentos = getEquipamentosFromJson(result);
+               /* for(int i=0;i<equipamentos.size();i++)
+                    atualizarEquipamentoTela(i);*/
+
                 //TODO: codigo para teste
                 if (equipamentos.size() == 0) {
                     equipamentos = getEquipsForTest();
                 }
-/*
-                int i = 0;
-                for (Equipamento eq : equipamentos) {
-                    //TODO:trocar pelo name do equipamento quando disponível
-                    atualizarEquipamentoTela(i);
-                    i++;
-                }*/
+                measurePending = 0;
             }
 
             @Override
@@ -203,7 +221,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        runner.execute();
+        if (!stopLoad) {
+            runner.execute();
+        }
 
     }
 
