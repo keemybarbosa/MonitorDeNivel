@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
         //Na primeira vez será executado após 5 segundos
         handler.postDelayed(runEquipments,5000);
 
+        //System.out.println(Utils.obterDensidadeTela(this));
+        binding.tvDPI.setText("DPI: " + Utils.obterDensidadeTela(this));
 
     }
 

@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="fab_margin">32dp</dimen>
+    <dimen name="font_percentual_size">64sp</dimen>
+    <dimen name="font_titulo1_size">64sp</dimen>
+    <dimen name="font_equipment_size">28sp</dimen>
+    <dimen name="font_equipment_percent">56sp</dimen>
+    <dimen name="font_equipment_detalhes">24sp</dimen>
+    <dimen name="font_equipment_name">36sp</dimen>
+    <dimen name="percentual_margintop">22.5dp</dimen>
+</resources>

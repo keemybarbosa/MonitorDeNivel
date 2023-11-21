@@ -149,7 +149,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_marginTop="5dp"
         android:text="{Nome}"
         android:textAlignment="center"
-        android:textSize="@dimen/font_equipmentmedium_size"
+        android:textSize="@dimen/font_equipment_name"
         app:layout_constraintEnd_toStartOf="@id/imgNivel"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +180,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         app:layout_constraintTop_toBottomOf="@id/lblPercentual"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/imgNivel"
-        android:textSize="@dimen/font_equipmentpercent_size"
+        android:textSize="@dimen/font_equipment_percent"
         android:layout_marginLeft="10dp"
         />
 
@@ -202,7 +202,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
 
         android:text="Leitura: "
         android:textAlignment="textStart"
-        android:textSize="@dimen/font_equipmentsmall_size"
+        android:textSize="@dimen/font_equipment_detalhes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tvEqpId" />
 
@@ -212,7 +212,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Id: "
-        android:textSize="@dimen/font_equipmentsmall_size"
+        android:textSize="@dimen/font_equipment_detalhes"
 
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"
@@ -225,7 +225,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mac: "
-        android:textSize="@dimen/font_equipmentsmall_size"
+        android:textSize="@dimen/font_equipment_detalhes"
 
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"
@@ -238,7 +238,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Volume: "
-        android:textSize="@dimen/font_equipmentsmall_size"
+        android:textSize="@dimen/font_equipment_detalhes"
 
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"
@@ -251,7 +251,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Distância Cheio: "
-        android:textSize="@dimen/font_equipmentsmall_size"
+        android:textSize="@dimen/font_equipment_detalhes"
 
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"
@@ -264,7 +264,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Distância Vazio: "
-        android:textSize="@dimen/font_equipmentsmall_size"
+        android:textSize="@dimen/font_equipment_detalhes"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -276,7 +276,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="@dimen/font_equipmentsmall_size"
+        android:textSize="@dimen/font_equipment_detalhes"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"

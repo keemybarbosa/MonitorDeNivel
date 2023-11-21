@@ -208,6 +208,13 @@ public class EquipamentoActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        //
+        binding.btnVoltar.performClick();
+
+    }
+
     private void doTheUpAnimation(int fromLevel, int toLevel) {
         mLevel += LEVEL_DIFF;
         mImageDrawable.setLevel(mLevel);

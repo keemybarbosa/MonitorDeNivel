@@ -6,7 +6,5 @@
     <dimen name="font_equipment_percent">28sp</dimen>
     <dimen name="font_equipment_detalhes">12sp</dimen>
     <dimen name="font_equipment_name">18sp</dimen>
-
     <dimen name="percentual_margintop">15dp</dimen>
-
 </resources>
