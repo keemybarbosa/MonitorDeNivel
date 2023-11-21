@@ -61,6 +61,23 @@ public class MainActivity extends AppCompatActivity {
         tvPercentual.add(findViewById(R.id.tvPercentual4));
         tvPercentual.add(findViewById(R.id.tvPercentual5));
 
+        //Verifica se está voltando da tela de equipamentos
+        boolean bComeFromEquipment = getIntent().getBooleanExtra("fromEquipamentos", false);
+        if (bComeFromEquipment){
+            Toast.makeText(this, "Voltando de Equipamentos", Toast.LENGTH_LONG).show();
+            equipamentos = new ArrayList<Equipamento>();
+
+            //Obtem Lista de equipamentos que foram enviados por parametro
+
+            /*equipamentos.add(new Equipamento(1,"abcde",1000,1000,1000,"NOME",1000));
+
+            for (int i = 0; i < equipamentos.size()-1; i++) {
+                atualizarEquipamentoTela(i);
+            }*/
+
+        }
+
+
 
         binding.btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override

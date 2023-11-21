@@ -89,6 +89,7 @@ public class EquipamentoActivity extends AppCompatActivity {
                 handler.removeCallbacks(runnable);
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("fromEquipamentos",true);
                 startActivity(intent);
                 finish();
             }
