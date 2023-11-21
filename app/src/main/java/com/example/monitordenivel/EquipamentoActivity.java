@@ -3,6 +3,7 @@ package com.example.monitordenivel;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -26,6 +27,50 @@ public class EquipamentoActivity extends AppCompatActivity {
 
     private Handler handler;
     private Runnable runnable;
+
+    /* BEGIN - Up Animation */
+    private Handler mUpHandler = new Handler();
+
+
+    /* ****************************/
+    /* ****************************/
+    /* ****************************/
+    /* ANIMAÇÃO DA BARRA DE NÍVEL */
+    /* ****************************/
+    /* ****************************/
+    /* ****************************/
+
+    private ClipDrawable mImageDrawable;
+
+    // a field in your class
+    private int mLevel = 0;
+    private int fromLevel = 0;
+    private int toLevel = 0;
+
+    public static final int MAX_LEVEL = 10000;
+    public static final int LEVEL_DIFF = 100;
+    public static final int DELAY = 30;
+    private Runnable animateUpImage = new Runnable() {
+
+        @Override
+        public void run() {
+            doTheUpAnimation(fromLevel, toLevel);
+        }
+    };
+    /* END - Up Animation */
+
+    /* BEGIN - Down Animation */
+    private Handler mDownHandler = new Handler();
+    private Runnable animateDownImage = new Runnable() {
+
+        @Override
+        public void run() {
+            doTheDownAnimation(fromLevel, toLevel);
+        }
+    };
+    /* END - Down Animation */
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +109,9 @@ public class EquipamentoActivity extends AppCompatActivity {
         equipamento = new Equipamento(idEquipamento,pMac,pVolume,pEmptycm,pFullcm,"RES99", pMeasure);
 
         updateEquipmentInfo(false);
+
+        mImageDrawable = (ClipDrawable) binding.imgNivel.getDrawable();
+        mImageDrawable.setLevel(5000);
 
 
         //Runnable responsável por recuperar informações de medidas do dispositivo
@@ -107,6 +155,9 @@ public class EquipamentoActivity extends AppCompatActivity {
             } else {
                 binding.tvEqpPercentual.setText(equipamento.getPercentualAsString());
                 binding.tvEqpMessage.setText("");
+
+                mImageDrawable.setLevel((int) (dPercentual/100 * MAX_LEVEL));
+
             }
 
 
@@ -155,6 +206,28 @@ public class EquipamentoActivity extends AppCompatActivity {
 
         runner.execute();
 
+    }
+
+    private void doTheUpAnimation(int fromLevel, int toLevel) {
+        mLevel += LEVEL_DIFF;
+        mImageDrawable.setLevel(mLevel);
+        if (mLevel <= toLevel) {
+            mUpHandler.postDelayed(animateUpImage, DELAY);
+        } else {
+            mUpHandler.removeCallbacks(animateUpImage);
+            EquipamentoActivity.this.fromLevel = toLevel;
+        }
+    }
+
+    private void doTheDownAnimation(int fromLevel, int toLevel) {
+        mLevel -= LEVEL_DIFF;
+        mImageDrawable.setLevel(mLevel);
+        if (mLevel >= toLevel) {
+            mDownHandler.postDelayed(animateDownImage, DELAY);
+        } else {
+            mDownHandler.removeCallbacks(animateDownImage);
+            EquipamentoActivity.this.fromLevel = toLevel;
+        }
     }
 
 }

@@ -16,6 +16,32 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <!-- Topo -->
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/logo_cinza"
+
+
+        />
+
+    <!-- Título da Aplicação -->
+    <TextView
+        android:id="@+id/lblAquaNivel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="25dp"
+        android:textAlignment="center"
+        android:text="AquaNivel"
+        android:textSize="@dimen/font_titulo1_size"
+        />
+
+    <!-- Título da Página -->
     <TextView
         android:id="@+id/lblEquipamento"
         android:layout_width="wrap_content"
@@ -26,6 +52,8 @@
         android:text="Equipamento"
         android:textSize="@dimen/font_titulo1_size"
         />
+
+    <!-- Back Button -->
     <Button
         android:id="@+id/btnVoltar"
         android:layout_width="wrap_content"
@@ -35,6 +63,8 @@
         app:layout_constraintTop_toTopOf="parent"
 
         />
+
+    <!-- Edit Button -->
     <Button
         android:id="@+id/btnEditar"
         android:layout_width="wrap_content"
@@ -47,6 +77,38 @@
 
         />
 
+    <!-- ###################################### -->
+    <!-- ###################################### -->
+    <!-- ######### CORPO DA PÁGINA    ######### -->
+    <!-- ###################################### -->
+    <!-- ###################################### -->
+
+    <!-- Gráfico de percentual -->
+    <ImageView
+        android:id="@+id/imgScall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/lblEquipamento"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+
+        android:src="@drawable/scall" />
+    <ImageView
+        android:id="@+id/imgNivel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/lblEquipamento"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:src="@drawable/clip_source" />
+    <!--app:layout_constraintTop_toBottomOf="@id/lblEquipamento"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintEnd_toEndOf="parent"-->
+
+
+    <!-- Gráfico do equipamento -->
     <View
         android:id="@+id/vwEquipamento"
         android:layout_width="wrap_content"
@@ -58,100 +120,170 @@
         android:layout_marginTop="20dp"
         app:layout_constraintWidth="200dp"
         app:layout_constraintHeight="200dp"
+        android:visibility="gone"
 
         />
+
+    <!-- Nome do Eeuipamento -->
+
+    <!-- PErcentual do Equipamento -->
+    <TextView
+        android:id="@+id/lblName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Nome"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@id/imgNivel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblEquipamento"
+        />
+
     <TextView
         android:id="@+id/tvEqpName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toTopOf="@id/vwEquipamento"
-        app:layout_constraintStart_toStartOf="@id/vwEquipamento"
-        app:layout_constraintWidth="200dp"
+        android:layout_marginStart="20dp"
+
+        android:layout_marginTop="5dp"
+        android:text="{Nome}"
         android:textAlignment="center"
+        android:textSize="@dimen/font_equipmentmedium_size"
+        app:layout_constraintEnd_toStartOf="@id/imgNivel"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblName" />
+
+    <TextView
+        android:id="@+id/lblPercentual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Nível"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@id/imgNivel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEqpName"
         />
 
     <TextView
         android:id="@+id/tvEqpPercentual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-"
-        android:layout_marginTop="55dp"
-        app:layout_constraintTop_toTopOf="@id/vwEquipamento"
-        app:layout_constraintStart_toStartOf="@id/vwEquipamento"
-        app:layout_constraintWidth="200dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+
+        android:text="{Percentual}"
         android:textAlignment="center"
-        android:textSize="48dp"
+        app:layout_constraintTop_toBottomOf="@id/lblPercentual"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imgNivel"
+        android:textSize="@dimen/font_equipmentpercent_size"
+        android:layout_marginLeft="10dp"
         />
 
+
+    <!-- ###################################### -->
+    <!-- ###################################### -->
+    <!-- ######### DADOS DINÂMICOS    ######### -->
+    <!-- ###################################### -->
+    <!-- ###################################### -->
+
+    <!-- Dados Dinâmicos -->
+
+    <!-- Medida -->
     <TextView
         android:id="@+id/tvEqpMeasure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+
         android:text="Leitura: "
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:textAlignment="textStart"
+        android:textSize="@dimen/font_equipmentsmall_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vwEquipamento"/>
+        app:layout_constraintBottom_toTopOf="@id/tvEqpId" />
+
+    <!-- Id -->
     <TextView
         android:id="@+id/tvEqpId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Id: "
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEqpMeasure"/>
+        android:textSize="@dimen/font_equipmentsmall_size"
 
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvEqpMac"/>
+
+    <!-- Mac -->
     <TextView
         android:id="@+id/tvEqpMac"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mac: "
-        android:layout_marginTop="10dp"
+        android:textSize="@dimen/font_equipmentsmall_size"
+
         android:layout_marginLeft="10dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEqpId"/>
+        app:layout_constraintBottom_toTopOf="@id/tvEqpVolume"/>
+
+    <!-- Volume -->
     <TextView
         android:id="@+id/tvEqpVolume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Volume: "
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEqpMac"/>
+        android:textSize="@dimen/font_equipmentsmall_size"
 
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvEqpFull"/>
+
+    <!-- Distância quando cheio  -->
     <TextView
         android:id="@+id/tvEqpFull"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Distância Cheio: "
-        android:layout_marginTop="10dp"
+        android:textSize="@dimen/font_equipmentsmall_size"
+
         android:layout_marginLeft="10dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEqpVolume"/>
+        app:layout_constraintBottom_toTopOf="@id/tvEqpEmpty"/>
+
+    <!-- Distância quando vazio -->
     <TextView
         android:id="@+id/tvEqpEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Distância Vazio: "
-        android:layout_marginTop="10dp"
+        android:textSize="@dimen/font_equipmentsmall_size"
         android:layout_marginLeft="10dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEqpFull"/>
+        app:layout_constraintBottom_toBottomOf="@id/imgNivel" />
+
+    <!-- Mensagem personalizada -->
     <TextView
         android:id="@+id/tvEqpMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
+        android:textSize="@dimen/font_equipmentsmall_size"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginStart="20dp"
         android:textColor="#cc0000"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEqpEmpty"/>
+        app:layout_constraintTop_toBottomOf="@id/imgNivel"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
