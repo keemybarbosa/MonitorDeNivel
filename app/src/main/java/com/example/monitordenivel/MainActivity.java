@@ -66,14 +66,15 @@ public class MainActivity extends AppCompatActivity {
         if (bComeFromEquipment){
             Toast.makeText(this, "Voltando de Equipamentos", Toast.LENGTH_LONG).show();
             equipamentos = new ArrayList<Equipamento>();
+            equipamentos = getIntent().getParcelableArrayListExtra("listaEquipamentos");
 
             //Obtem Lista de equipamentos que foram enviados por parametro
 
-            /*equipamentos.add(new Equipamento(1,"abcde",1000,1000,1000,"NOME",1000));
+            /*equipamentos.add(new Equipamento(1,"abcde",1000,1000,1000,"NOME",1000));*/
 
-            for (int i = 0; i < equipamentos.size()-1; i++) {
+            for (int i = 0; i < equipamentos.size(); i++) {
                 atualizarEquipamentoTela(i);
-            }*/
+            }
 
         }
 
@@ -211,6 +212,8 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("fullcm", equipamentos.get(i).getFullcm() + "");
 
         intent.putExtra("measure", equipamentos.get(i).getMeasure() + "");
+
+        intent.putParcelableArrayListExtra("equipamentos", equipamentos);
 
         startActivity(intent);
 

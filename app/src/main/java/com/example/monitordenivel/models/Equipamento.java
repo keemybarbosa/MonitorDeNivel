@@ -1,6 +1,13 @@
 package com.example.monitordenivel.models;
 
-public class Equipamento {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
+
+public class Equipamento implements Parcelable {
     private int id;
     private String mac;
     private int volume; //Volume em litros
@@ -115,4 +122,46 @@ public class Equipamento {
         return retorno;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public Equipamento(Parcel in) {
+        // Esse construtor apesar de nao ser requerido pela interface,
+        // e necessario por causa do protocolo implicito do Parcelable
+        // Lembrar da ordem que foi escrita no writeToParcel!!
+        id = in.readInt();
+        mac = in.readString();
+        volume = in.readInt();
+        emptycm = in.readInt();
+        fullcm= in.readInt();
+        name= in.readString();
+        measure= in.readInt();
+        // Demais campos
+    }
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        //int id, String mac, int volume, int emptycm, int fullcm, String name, int measure
+        dest.writeInt(id);
+        dest.writeString(mac);
+        dest.writeInt(volume);
+        dest.writeInt(emptycm);
+        dest.writeInt(fullcm);
+        dest.writeString(name);
+        dest.writeInt(measure);
+    }
+
+    // Como parte do contrato implicito,
+    // sua classe precisa de um atributo estatico chamado "CREATOR"
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Equipamento createFromParcel(Parcel in) {
+            return new Equipamento(in);
+        }
+
+        public Equipamento[] newArray(int size) {
+            return new Equipamento[size];
+        }
+    };
 }

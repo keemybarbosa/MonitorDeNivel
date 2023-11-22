@@ -16,12 +16,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class EquipamentoActivity extends AppCompatActivity {
 
     private Equipamento equipamento;
+
+    //Variavel usada para salvar os equipamentos que vem da outra tela
+    public ArrayList<Equipamento> equipamentos = null;
 
     ActivityEquipamentoBinding binding;
 
@@ -90,11 +94,15 @@ public class EquipamentoActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("fromEquipamentos",true);
+                intent.putParcelableArrayListExtra("listaEquipamentos", equipamentos);
                 startActivity(intent);
                 finish();
             }
         });
 
+
+        equipamentos = new ArrayList<Equipamento>();
+        equipamentos = getIntent().getParcelableArrayListExtra("equipamentos");
 
         int idEquipamento = Integer.parseInt(getIntent().getStringExtra("idEquipamento"));
 
