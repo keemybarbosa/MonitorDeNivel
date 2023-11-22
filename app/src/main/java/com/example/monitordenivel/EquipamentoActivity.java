@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.renderscript.ScriptGroup;
 import android.view.View;
 
 import com.example.monitordenivel.databinding.ActivityEquipamentoBinding;
 import com.example.monitordenivel.databinding.ActivityMainBinding;
 import com.example.monitordenivel.models.Equipamento;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -121,6 +124,53 @@ public class EquipamentoActivity extends AppCompatActivity {
 
         mImageDrawable = (ClipDrawable) binding.imgNivel.getDrawable();
         mImageDrawable.setLevel(5000);
+
+
+
+
+        // GRÁFICO
+        // on below line we are adding data to our graph view.
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
+                // on below line we are adding
+                // each point on our x and y axis.
+                new DataPoint(0, 18),
+                new DataPoint(1, 25),
+                new DataPoint(2, 4),
+                new DataPoint(3, 100),
+                new DataPoint(4, 15),
+                new DataPoint(5, 13),
+                new DataPoint(6, 90),
+                new DataPoint(7, 12),
+                new DataPoint(8, 56)
+        });
+
+        binding.graphEquipment.getViewport().setYAxisBoundsManual(true);
+        binding.graphEquipment.getViewport().setMinY(0);
+        binding.graphEquipment.getViewport().setMaxY(100);
+        //binding.graphEquipment.getViewport().setScalable(true);
+        //binding.graphEquipment.getViewport().setScalableY(true);
+
+        // after adding data to our line graph series.
+        // on below line we are setting
+        // title for our graph view.
+        binding.graphEquipment.setTitle("My Graph View");
+
+        // on below line we are setting
+        // text color to our graph view.
+        binding.graphEquipment.setTitleColor(R.color.purple_200);
+
+        // on below line we are setting
+        // our title text size.
+        binding.graphEquipment.setTitleTextSize(18);
+
+        // on below line we are adding
+        // data series to our graph view.
+        binding.graphEquipment.addSeries(series);
+
+
+
+
+
 
 
         //Runnable responsável por recuperar informações de medidas do dispositivo

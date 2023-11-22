@@ -145,60 +145,56 @@
         android:id="@+id/tvName2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/vwEquip2"
-        app:layout_constraintStart_toStartOf="@id/vwEquip2"
-        android:text="-"
-        android:textSize="@dimen/font_equipment_size"
-        app:layout_constraintWidth="150dp"
-        android:textAlignment="center"
         android:layout_marginTop="15dp"
-        />
+        android:text="Carregando..."
+        android:textAlignment="center"
+        android:textSize="@dimen/font_equipment_size"
+        app:layout_constraintStart_toStartOf="@id/vwEquip2"
+        app:layout_constraintTop_toTopOf="@id/vwEquip2"
+        app:layout_constraintWidth="150dp" />
 
     <TextView
         android:id="@+id/tvName3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/vwEquip3"
-        app:layout_constraintStart_toStartOf="@id/vwEquip3"
-        android:text="-"
-        android:textSize="@dimen/font_equipment_size"
-        app:layout_constraintWidth="150dp"
-        android:textAlignment="center"
         android:layout_marginTop="15dp"
-        />
+        android:text="Carregando..."
+        android:textAlignment="center"
+        android:textSize="@dimen/font_equipment_size"
+        app:layout_constraintStart_toStartOf="@id/vwEquip3"
+        app:layout_constraintTop_toTopOf="@id/vwEquip3"
+        app:layout_constraintWidth="150dp" />
 
     <TextView
         android:id="@+id/tvName4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/vwEquip4"
-        app:layout_constraintStart_toStartOf="@id/vwEquip4"
-        android:text="-"
-        android:textSize="@dimen/font_equipment_size"
-        app:layout_constraintWidth="150dp"
-        android:textAlignment="center"
         android:layout_marginTop="15dp"
-        />
+        android:text="Carregando..."
+        android:textAlignment="center"
+        android:textSize="@dimen/font_equipment_size"
+        app:layout_constraintStart_toStartOf="@id/vwEquip4"
+        app:layout_constraintTop_toTopOf="@id/vwEquip4"
+        app:layout_constraintWidth="150dp" />
 
     <TextView
         android:id="@+id/tvName5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/vwEquip5"
-        app:layout_constraintStart_toStartOf="@id/vwEquip5"
-        android:text="-"
-        android:textSize="@dimen/font_equipment_size"
-        app:layout_constraintWidth="150dp"
-        android:textAlignment="center"
         android:layout_marginTop="15dp"
-        />
+        android:text="Carregando..."
+        android:textAlignment="center"
+        android:textSize="@dimen/font_equipment_size"
+        app:layout_constraintStart_toStartOf="@id/vwEquip5"
+        app:layout_constraintTop_toTopOf="@id/vwEquip5"
+        app:layout_constraintWidth="150dp" />
 
     <TextView
         android:id="@+id/tvPercentual1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/percentual_margintop"
-        android:text="100,00%"
+        android:text="-"
         android:textAlignment="center"
         android:textSize="@dimen/font_equipment_percent"
         app:layout_constraintStart_toStartOf="@id/vwEquip1"

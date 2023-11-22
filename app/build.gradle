@@ -7,6 +7,7 @@ android {
     namespace 'com.example.monitordenivel'
     compileSdk 33
 
+
     defaultConfig {
         applicationId "com.example.monitordenivel"
         minSdk 24
@@ -80,5 +81,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
     implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.jjoe64:graphview:4.2.2'
+
 
 }

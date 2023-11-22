@@ -285,5 +285,26 @@ app:layout_constraintEnd_toEndOf="parent"-->
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgNivel"/>
 
+    <TextView
+        android:id="@+id/lblDadosFicticios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Dados do gráfico temporários"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEqpMessage"
+        />
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graphEquipment"
+        android:layout_width="wrap_content"
+        android:layout_height="200dip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblDadosFicticios"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
