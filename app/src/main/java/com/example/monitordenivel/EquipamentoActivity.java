@@ -12,6 +12,7 @@ import android.view.View;
 import com.example.monitordenivel.databinding.ActivityEquipamentoBinding;
 import com.example.monitordenivel.databinding.ActivityMainBinding;
 import com.example.monitordenivel.models.Equipamento;
+import com.example.monitordenivel.utils.WebServiceConstants;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -243,7 +244,10 @@ public class EquipamentoActivity extends AppCompatActivity {
      */
     public void buscarMedida(String mac){
 
-        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last/" + mac, new AsyncTaskCallback() {
+        //AsyncTaskRunner runner = new AsyncTaskRunner("http://vps52736.publiccloud.com.br:8080/api/measure/last/" + mac, new AsyncTaskCallback() {
+
+        String taskURL = WebServiceConstants.MEASURE_ENDPOINT + "last/";
+        AsyncTaskRunner runner = new AsyncTaskRunner(taskURL + mac, new AsyncTaskCallback() {
             @Override
             public void onTaskCompleted(String result) {
                 try {

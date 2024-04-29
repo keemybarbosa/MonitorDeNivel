@@ -15,7 +15,7 @@ public class HttpHelper {
             // FONTE: https://www.youtube.com/watch?v=px5xDQSHxmQ
 
             // URL do servidor
-            val URL = url; //"http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last"
+            val URL = url;
 
             // Criar um cliente que vai disparar a requisição
             val client = OkHttpClient()

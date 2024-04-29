@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.monitordenivel.databinding.ActivityMainBinding;
 import com.example.monitordenivel.models.Equipamento;
 import com.example.monitordenivel.utils.MathUtils;
+import com.example.monitordenivel.utils.WebServiceConstants;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,8 +23,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<TextView> tvPercentual = new ArrayList<TextView>();
 
     ArrayList<View> viewEquipamento = new ArrayList<View>();
+
+    TextView tvMessages;
 
 
     private Handler handler;
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         tvPercentual.add(findViewById(R.id.tvPercentual3));
         tvPercentual.add(findViewById(R.id.tvPercentual4));
         tvPercentual.add(findViewById(R.id.tvPercentual5));
+
+        tvMessages = findViewById(R.id.tvMessages);
 
         //Verifica se está voltando da tela de equipamentos
         boolean bComeFromEquipment = getIntent().getBooleanExtra("fromEquipamentos", false);
@@ -127,7 +131,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                carregarDados();
+
+                int INTERVAL = 10000;
+
+                carregarArrayEquipamentos();
+                tvMessages.setText("Carregar 10seg\n" + tvMessages.getText());
                 stopLoad = true;
                 int i = 0;
                 //try {
@@ -135,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     for (Equipamento eq : equipamentos) {
 
                         if (eq != null) {
-                            obterMeasure(eq.getMac());
+                            atualizarEquipamentoPorMac(eq.getMac());
                             atualizarEquipamentoTela(i);
                         }
                         i++;
@@ -149,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 //Reexecuta após 1.5 segundos
-                handler.postDelayed(this,5000);
+                handler.postDelayed(this,INTERVAL);
             }
         };
         //Na primeira vez será executado após 5 segundos
@@ -160,10 +168,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void obterMeasure(String mac) {
+    private void atualizarEquipamentoPorMac(String mac) {
 
         measurePending++;
-        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last/" + mac, new AsyncTaskCallback() {
+        String taskUrl = WebServiceConstants.MEASURE_ENDPOINT + "last/";
+        //"http://vps52736.publiccloud.com.br:8080/api/measure/last/" + mac
+        AsyncTaskRunner runner = new AsyncTaskRunner(taskUrl + mac, new AsyncTaskCallback() {
             @Override
             public void onTaskCompleted(String result) {
                 measurePending--;
@@ -184,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTaskFailed(Exception e) {
-                System.out.println("teste");
+                System.out.println("A solicitação falhou: " + e.getMessage());
             }
         });
 
@@ -195,7 +205,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        carregarDados();
+        carregarArrayEquipamentos();
+        tvMessages.setText("Carregar PostCreate\n" + tvMessages.getText());
     }
 
     private void carregarEquipamento(int i) {
@@ -221,20 +232,28 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    public void carregarDados(){
-        //AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/measure/last");
-        AsyncTaskRunner runner = new AsyncTaskRunner("http://ec2-3-22-51-1.us-east-2.compute.amazonaws.com:8080/api/equipment", new AsyncTaskCallback() {
+    public void carregarArrayEquipamentos(){
+        //AsyncTaskRunner runner = new AsyncTaskRunner("http://vps52736.publiccloud.com.br:8080/api/measure/last");
+
+        String taskURL = WebServiceConstants.EQUIPMENT_ENDPOINT;
+        AsyncTaskRunner runner = new AsyncTaskRunner(taskURL, new AsyncTaskCallback() {
+
             @Override
             public void onTaskCompleted(String result) {
-                equipamentos = getEquipamentosFromJson(result);
-               /* for(int i=0;i<equipamentos.size();i++)
-                    atualizarEquipamentoTela(i);*/
+                if (!result.startsWith("failed")) {
 
-                //TODO: codigo para teste
-                if (equipamentos.size() == 0) {
-                    equipamentos = getEquipsForTest();
+                    equipamentos = getEquipamentosFromJson(result);
+                   /* for(int i=0;i<equipamentos.size();i++)
+                        atualizarEquipamentoTela(i);*/
+
+                    //TODO: codigo para teste
+                    if (equipamentos.size() == 0) {
+                        equipamentos = getEquipsForTest();
+                    }
+                    measurePending = 0;
+                } else {
+                    tvMessages.setText("failed\n" + tvMessages.getText());
                 }
-                measurePending = 0;
             }
 
             @Override
@@ -252,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
     public void atualizarEquipamentoTela(int i){
         tvName.get(i).setText(equipamentos.get(i).getMac());
         tvPercentual.get(i).setText(equipamentos.get(i).getPercentualInfo());
+        tvMessages.setText("Atualizando " + i + (Utils.random(1000)) + "\n" + tvMessages.getText());
     }
 
     private ArrayList<Equipamento> getEquipamentosFromJson(String returnJson) {

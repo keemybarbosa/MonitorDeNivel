@@ -31,4 +31,9 @@ public class Utils {
         }
         return "Unknown Density";
     }
+
+    public static int random(int max){
+        return (int) (Math.random() * max);
+    }
+
 }
