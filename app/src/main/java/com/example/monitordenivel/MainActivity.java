@@ -21,15 +21,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends AppCompatActivity {
 
-    public ArrayList<Equipamento> equipamentos = null;
+   //public ArrayList<Equipamento> equipamentos = null;
     ArrayList<TextView> tvName = new ArrayList<TextView>();
     ArrayList<TextView> tvPercentual = new ArrayList<TextView>();
+
+    ArrayList<TextView> tvUpdate = new ArrayList<TextView>();
 
     ArrayList<View> viewEquipamento = new ArrayList<View>();
 
@@ -62,25 +66,40 @@ public class MainActivity extends AppCompatActivity {
         tvPercentual.add(findViewById(R.id.tvPercentual3));
         tvPercentual.add(findViewById(R.id.tvPercentual4));
         tvPercentual.add(findViewById(R.id.tvPercentual5));
+        tvUpdate.add(findViewById(R.id.tvUpdate1));
+        tvUpdate.add(findViewById(R.id.tvUpdate2));
+        tvUpdate.add(findViewById(R.id.tvUpdate3));
+        tvUpdate.add(findViewById(R.id.tvUpdate4));
+        tvUpdate.add(findViewById(R.id.tvUpdate5));
 
         tvMessages = findViewById(R.id.tvMessages);
 
         //Verifica se está voltando da tela de equipamentos
+
         boolean bComeFromEquipment = getIntent().getBooleanExtra("fromEquipamentos", false);
-        if (bComeFromEquipment){
+        if (bComeFromEquipment) {
+            int i = 0;
+            for (Equipamento eq : EquipamentosManager.equipamentos) {
+                EquipamentosManager.AtualizarEquipamentoPorMac(eq.getMac());
+                atualizarEquipamentoTela(i);
+                i++;
+            }
+        }
+        /*
             Toast.makeText(this, "Voltando de Equipamentos", Toast.LENGTH_LONG).show();
             equipamentos = new ArrayList<Equipamento>();
             equipamentos = getIntent().getParcelableArrayListExtra("listaEquipamentos");
 
             //Obtem Lista de equipamentos que foram enviados por parametro
 
-            /*equipamentos.add(new Equipamento(1,"abcde",1000,1000,1000,"NOME",1000));*/
+            equipamentos.add(new Equipamento(1,"abcde",1000,1000,1000,"NOME",1000));
 
             for (int i = 0; i < equipamentos.size(); i++) {
                 atualizarEquipamentoTela(i);
             }
 
         }
+        */
 
 
 
@@ -94,31 +113,31 @@ public class MainActivity extends AppCompatActivity {
         binding.vwEquip1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarEquipamento(0);
+                clickEquipamento(0);
             }
         });
         binding.vwEquip2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarEquipamento(1);
+                clickEquipamento(1);
             }
         });
         binding.vwEquip3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarEquipamento(2);
+                clickEquipamento(2);
             }
         });
         binding.vwEquip4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarEquipamento(3);
+                clickEquipamento(3);
             }
         });
         binding.vwEquip5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                carregarEquipamento(4);
+                clickEquipamento(4);
             }
         });
 
@@ -134,27 +153,13 @@ public class MainActivity extends AppCompatActivity {
 
                 int INTERVAL = 10000;
 
-                carregarArrayEquipamentos();
-                tvMessages.setText("Carregar 10seg\n" + tvMessages.getText());
-                stopLoad = true;
+                EquipamentosManager.CarregarEquipamentos();
                 int i = 0;
-                //try {
-                try {
-                    for (Equipamento eq : equipamentos) {
-
-                        if (eq != null) {
-                            atualizarEquipamentoPorMac(eq.getMac());
-                            atualizarEquipamentoTela(i);
-                        }
-                        i++;
-                    }
-                } catch (Exception e){
-
+                for (Equipamento eq : EquipamentosManager.equipamentos) {
+                    EquipamentosManager.AtualizarEquipamentoPorMac(eq.getMac());
+                    atualizarEquipamentoTela(i);
+                    i++;
                 }
-
-                    if (measurePending == 0){
-                        stopLoad = false;
-                    }
 
                 //Reexecuta após 1.5 segundos
                 handler.postDelayed(this,INTERVAL);
@@ -168,63 +173,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void atualizarEquipamentoPorMac(String mac) {
-
-        measurePending++;
-        String taskUrl = WebServiceConstants.MEASURE_ENDPOINT + "last/";
-        //"http://vps52736.publiccloud.com.br:8080/api/measure/last/" + mac
-        AsyncTaskRunner runner = new AsyncTaskRunner(taskUrl + mac, new AsyncTaskCallback() {
-            @Override
-            public void onTaskCompleted(String result) {
-                measurePending--;
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    int measure = jsonObject.getInt("measure");
-                    for(Equipamento eq : equipamentos){
-                        if(eq.getMac().equals(mac)){
-                            eq.setMeasure(measure);
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    //throw new RuntimeException(e);
-                }
-
-            }
-
-            @Override
-            public void onTaskFailed(Exception e) {
-                System.out.println("A solicitação falhou: " + e.getMessage());
-            }
-        });
-
-        runner.execute();
-
-    }
-
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        carregarArrayEquipamentos();
+        //carregarArrayEquipamentos();
         tvMessages.setText("Carregar PostCreate\n" + tvMessages.getText());
     }
 
-    private void carregarEquipamento(int i) {
+    private void clickEquipamento(int i) {
 
-        if ((equipamentos == null) || (i >= equipamentos.size())) return;
-        if (equipamentos.get(i).getMac().equals("")) return;
+        if ((EquipamentosManager.equipamentos == null) || (i >= EquipamentosManager.equipamentos.size())) return;
+        if (EquipamentosManager.equipamentos.get(i).getMac().equals("")) return;
 
         Intent intent = new Intent(getApplicationContext(), EquipamentoActivity.class);
         //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("idEquipamento",equipamentos.get(i).getId() +"");
-        intent.putExtra("mac", equipamentos.get(i).getMac() + "");
-        intent.putExtra("volume", equipamentos.get(i).getVolume() + "");
-        intent.putExtra("emptycm", equipamentos.get(i).getEmptycm() + "");
-        intent.putExtra("fullcm", equipamentos.get(i).getFullcm() + "");
+        intent.putExtra("idEquipamento",EquipamentosManager.equipamentos.get(i).getId() +"");
+        intent.putExtra("mac", EquipamentosManager.equipamentos.get(i).getMac() + "");
+        intent.putExtra("volume", EquipamentosManager.equipamentos.get(i).getVolume() + "");
+        intent.putExtra("emptycm", EquipamentosManager.equipamentos.get(i).getEmptycm() + "");
+        intent.putExtra("fullcm", EquipamentosManager.equipamentos.get(i).getFullcm() + "");
 
-        intent.putExtra("measure", equipamentos.get(i).getMeasure() + "");
+        intent.putExtra("measure", EquipamentosManager.equipamentos.get(i).getMeasure() + "");
 
-        intent.putParcelableArrayListExtra("equipamentos", equipamentos);
+        intent.putParcelableArrayListExtra("equipamentos", EquipamentosManager.equipamentos);
 
         startActivity(intent);
 
@@ -232,78 +203,23 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    public void carregarArrayEquipamentos(){
-        //AsyncTaskRunner runner = new AsyncTaskRunner("http://vps52736.publiccloud.com.br:8080/api/measure/last");
-
-        String taskURL = WebServiceConstants.EQUIPMENT_ENDPOINT;
-        AsyncTaskRunner runner = new AsyncTaskRunner(taskURL, new AsyncTaskCallback() {
-
-            @Override
-            public void onTaskCompleted(String result) {
-                if (!result.startsWith("failed")) {
-
-                    equipamentos = getEquipamentosFromJson(result);
-                   /* for(int i=0;i<equipamentos.size();i++)
-                        atualizarEquipamentoTela(i);*/
-
-                    //TODO: codigo para teste
-                    if (equipamentos.size() == 0) {
-                        equipamentos = getEquipsForTest();
-                    }
-                    measurePending = 0;
-                } else {
-                    tvMessages.setText("failed\n" + tvMessages.getText());
-                }
-            }
-
-            @Override
-            public void onTaskFailed(Exception e) {
-
-            }
-        });
-
-        if (!stopLoad) {
-            runner.execute();
-        }
-
-    }
-
     public void atualizarEquipamentoTela(int i){
-        tvName.get(i).setText(equipamentos.get(i).getMac());
-        tvPercentual.get(i).setText(equipamentos.get(i).getPercentualInfo());
+        Date currentDate = Calendar.getInstance().getTime();
+
+        tvName.get(i).setText(EquipamentosManager.equipamentos.get(i).getMac());
+        tvPercentual.get(i).setText(EquipamentosManager.equipamentos.get(i).getPercentualInfo());
+
+        //DAta de atualização
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM HH:mm:ss");
+        String formattedDate = dateFormat.format(currentDate);
+        tvUpdate.get(i).setText("last update: " + formattedDate);
+
         tvMessages.setText("Atualizando " + i + (Utils.random(1000)) + "\n" + tvMessages.getText());
-    }
-
-    private ArrayList<Equipamento> getEquipamentosFromJson(String returnJson) {
-        ArrayList<Equipamento> listaEquipamentos = new ArrayList<Equipamento>();
-
-        Gson gson = new Gson();
-
-        try {
-            Type equipamentoListType = new TypeToken<List<Equipamento>>() {
-            }.getType();
-            listaEquipamentos = gson.fromJson(returnJson, equipamentoListType);
-        } catch (Exception e){
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG).show();
-        }
 
 
-        return listaEquipamentos;
+
+
 
     }
 
-    private ArrayList<Equipamento> getEquipsForTest() {
-        //TODO: METODO PARA TESTE
-        ArrayList<Equipamento> listEquips = new ArrayList<Equipamento>();
-
-        listEquips.add(new Equipamento(1,"aa:aa:aa:aa:aa:aa",1000,250,40,"RES95", MathUtils.numeroAleatorio(40,250)));
-        listEquips.add(new Equipamento(2,"bb:aa:aa:aa:aa:aa",1000,180,36,"RES96",MathUtils.numeroAleatorio(36,180)));
-        listEquips.add(new Equipamento(3,"cc:aa:aa:aa:aa:aa",1000,100,48,"RES97",MathUtils.numeroAleatorio(48,100)));
-        listEquips.add(new Equipamento(4,"dd:aa:aa:aa:aa:aa",1000,180,50,"RES98",MathUtils.numeroAleatorio(50,180)));
-        listEquips.add(new Equipamento(5,"ee:aa:aa:aa:aa:aa",1000,70,10,"RES99",MathUtils.numeroAleatorio(10,70)));
-
-        return listEquips;
-
-    }
 }

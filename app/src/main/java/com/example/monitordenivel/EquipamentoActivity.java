@@ -142,12 +142,17 @@ public class EquipamentoActivity extends AppCompatActivity {
                 new DataPoint(5, 13),
                 new DataPoint(6, 90),
                 new DataPoint(7, 12),
-                new DataPoint(8, 56)
+                new DataPoint(8, 56),
+                new DataPoint(10, 56),
+                new DataPoint(20, 56),
+                new DataPoint(29, 30),
+                new DataPoint(30, 100)
         });
 
         binding.graphEquipment.getViewport().setYAxisBoundsManual(true);
         binding.graphEquipment.getViewport().setMinY(0);
         binding.graphEquipment.getViewport().setMaxY(100);
+        binding.graphEquipment.getViewport().setMaxX(30);
         //binding.graphEquipment.getViewport().setScalable(true);
         //binding.graphEquipment.getViewport().setScalableY(true);
 
@@ -256,7 +261,9 @@ public class EquipamentoActivity extends AppCompatActivity {
                     equipamento.setMeasure(measure);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    throw new RuntimeException(e);
+
+                    //TODO: LINHA COMENTADA EM 01/05/2024 - TESTAR PARA VER IMPLICAÇÕES
+                    //throw new RuntimeException(e);
                 }
 
             }

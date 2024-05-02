@@ -254,6 +254,70 @@
         />
 
     <TextView
+        android:id="@+id/tvUpdate1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/percentual_margintop"
+        android:text="last update:"
+        android:textAlignment="center"
+        android:textSize="8dp"
+        app:layout_constraintStart_toStartOf="@id/vwEquip1"
+        app:layout_constraintTop_toBottomOf="@id/tvPercentual1"
+        app:layout_constraintWidth="150dp" />
+
+    <TextView
+        android:id="@+id/tvUpdate2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvPercentual2"
+        app:layout_constraintStart_toStartOf="@id/vwEquip2"
+        android:text="last update:"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:textSize="8dp"
+        android:layout_marginTop="@dimen/percentual_margintop"
+        />
+
+    <TextView
+        android:id="@+id/tvUpdate3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvPercentual3"
+        app:layout_constraintStart_toStartOf="@id/vwEquip3"
+        android:text="last update:"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:textSize="8dp"
+        android:layout_marginTop="@dimen/percentual_margintop"
+        />
+
+    <TextView
+        android:id="@+id/tvUpdate4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvPercentual4"
+        app:layout_constraintStart_toStartOf="@id/vwEquip4"
+        android:text="last update:"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:textSize="8dp"
+        android:layout_marginTop="@dimen/percentual_margintop"
+        />
+
+    <TextView
+        android:id="@+id/tvUpdate5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvPercentual5"
+        app:layout_constraintStart_toStartOf="@id/vwEquip5"
+        android:text="last update:"
+        app:layout_constraintWidth="150dp"
+        android:textAlignment="center"
+        android:textSize="8dp"
+        android:layout_marginTop="@dimen/percentual_margintop"
+        />
+
+    <TextView
         android:id="@+id/tvDPI"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
