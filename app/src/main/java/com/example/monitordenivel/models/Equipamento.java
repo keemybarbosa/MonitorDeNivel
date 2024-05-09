@@ -18,6 +18,8 @@ public class Equipamento implements Parcelable {
 
     private int measure; //Medida vinda do equipamento
 
+    private String message;
+
     public Equipamento(int id, String mac, int volume, int emptycm, int fullcm, String name, int measure){
         this.id = id;
         this.mac = mac;
@@ -83,6 +85,14 @@ public class Equipamento implements Parcelable {
 
     public void setMeasure(int measure) {
         this.measure = measure;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Double getPercentual(){

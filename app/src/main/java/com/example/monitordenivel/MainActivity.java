@@ -77,8 +77,14 @@ public class MainActivity extends AppCompatActivity {
         //Verifica se está voltando da tela de equipamentos
 
         boolean bComeFromEquipment = getIntent().getBooleanExtra("fromEquipamentos", false);
+
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM HH:mm:ss");
+        String formattedDate = dateFormat.format(currentDate);
+
         if (bComeFromEquipment) {
             int i = 0;
+            tvMessages.setText("Atualizando " + currentDate);
             for (Equipamento eq : EquipamentosManager.equipamentos) {
                 EquipamentosManager.AtualizarEquipamentoPorMac(eq.getMac());
                 atualizarEquipamentoTela(i);
@@ -204,17 +210,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void atualizarEquipamentoTela(int i){
-        Date currentDate = Calendar.getInstance().getTime();
+
 
         tvName.get(i).setText(EquipamentosManager.equipamentos.get(i).getMac());
         tvPercentual.get(i).setText(EquipamentosManager.equipamentos.get(i).getPercentualInfo());
 
         //DAta de atualização
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM HH:mm:ss");
-        String formattedDate = dateFormat.format(currentDate);
-        tvUpdate.get(i).setText("last update: " + formattedDate);
 
-        tvMessages.setText("Atualizando " + i + (Utils.random(1000)) + "\n" + tvMessages.getText());
+        //tvUpdate.get(i).setText("atualização: " + formattedDate);
+        tvUpdate.get(i).setText(EquipamentosManager.equipamentos.get(i).getMessage());
+
+
 
 
 
