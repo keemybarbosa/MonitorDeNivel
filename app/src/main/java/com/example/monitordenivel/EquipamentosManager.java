@@ -1,7 +1,10 @@
 package com.example.monitordenivel;
 
 import android.content.SharedPreferences;
+import android.media.audiofx.DynamicsProcessing;
 import android.os.AsyncTask;
+
+import androidx.compose.runtime.ExpectKt;
 
 import com.example.monitordenivel.dao.ConnectionFactory;
 import com.example.monitordenivel.dao.MeasureDao;
@@ -9,6 +12,7 @@ import com.example.monitordenivel.dao.impl.MeasureDaoImpl;
 import com.example.monitordenivel.models.Equipamento;
 import com.example.monitordenivel.models.Measure;
 import com.example.monitordenivel.utils.WebServiceConstants;
+import com.github.mikephil.charting.data.CandleEntry;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,15 +23,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class EquipamentosManager {
     public static ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    public static List<CandleEntry> graphEntries = new ArrayList<>();
 
-
-
-    public void EquipamentoManager() {
-        //equipamentos = new ArrayList<>();
+    static {
+        graphEntries.add(0,new CandleEntry(0,0,0,0,0));
     }
 
     public static void CarregarEquipamentos(){
@@ -152,6 +158,127 @@ public class EquipamentosManager {
     }
 
 
+    public static void atualizarGraficoPorMac(String mac) {
+        List<CandleEntry> entries = new ArrayList<>();
+
+        Date currentDate = Calendar.getInstance().getTime();
+        new AsyncTask<String, Void, Measure>() {
+            @Override
+            protected Measure doInBackground(String... params) {
+                String mac = params[0];
+                Measure lastMeasure = null;
+                try (Connection connection = ConnectionFactory.getConnection()) {
+                    String query = "WITH last_30_days AS ( " +
+                            "  SELECT " +
+                            "    date_trunc('day', date_time) AS date, " +
+                            "    mac, " +
+                            "    MIN(measure) AS low, " +
+                            "    MAX(measure) AS high " +
+                            "  FROM " +
+                            "    measure " +
+                            "  WHERE " +
+                            "    date_time >= current_date - interval '29 days' " +
+                            "    AND mac = '" + mac + "' " +
+                            "  GROUP BY " +
+                            "    date_trunc('day', date_time), " +
+                            "    mac " +
+                            "), " +
+                            "open_values AS ( " +
+                            "  SELECT DISTINCT ON (date_trunc('day', date_time), mac) " +
+                            "    date_trunc('day', date_time) AS date, " +
+                            "    mac, " +
+                            "    measure AS open " +
+                            "  FROM " +
+                            "    measure " +
+                            "  WHERE " +
+                            "    date_time >= current_date - interval '29 days' " +
+                            "    AND mac = '" + mac + "' " +
+                            "  ORDER BY " +
+                            "    date_trunc('day', date_time), " +
+                            "    mac, " +
+                            "    date_time " +
+                            "), " +
+                            "close_values AS ( " +
+                            "  SELECT DISTINCT ON (date_trunc('day', date_time), mac) " +
+                            "    date_trunc('day', date_time) AS date, " +
+                            "    mac, " +
+                            "    measure AS close " +
+                            "  FROM " +
+                            "    measure " +
+                            "  WHERE " +
+                            "    date_time >= current_date - interval '29 days' " +
+                            "    AND mac = '" + mac + "' " +
+                            "  ORDER BY " +
+                            "    date_trunc('day', date_time) DESC, " +
+                            "    mac, " +
+                            "    date_time DESC " +
+                            ") " +
+                            "SELECT " +
+                            "  ld.date, " +
+                            "  ov.open, " +
+                            "  ld.low, " +
+                            "  ld.high, " +
+                            "  cv.close, " +
+                            "  ld.mac " +
+                            "FROM " +
+                            "  last_30_days ld " +
+                            "JOIN " +
+                            "  open_values ov ON ld.date = ov.date AND ld.mac = ov.mac " +
+                            "JOIN " +
+                            "  close_values cv ON ld.date = cv.date AND ld.mac = cv.mac " +
+                            "ORDER BY " +
+                            "  ld.mac, " +
+                            "  ld.date; ";
+
+                    //insere 30 dias zerados
+                    EquipamentosManager.clearGraph();
+                    entries.clear();
+                    for (int i = 0; i < 30; i++) {
+                        entries.add(new CandleEntry(i,0,0,0,0) );
+                    }
+
+                    try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        try (ResultSet resultSet = statement.executeQuery()) {
+                            while (resultSet.next()) {
+                                // Calcula o índice com base na data do banco de dados
+                                Date dataDoBanco = resultSet.getDate("date");
+                                long diffEmMilissegundos = Math.abs(dataDoBanco.getTime() - currentDate.getTime());
+                                long diffEmDias = TimeUnit.DAYS.convert(diffEmMilissegundos, TimeUnit.MILLISECONDS);
+                                int indice = 30 - (int) diffEmDias - 1;
+
+                                entries.set(indice,
+                                        new CandleEntry(indice,
+                                                resultSet.getFloat("high"),
+                                                resultSet.getFloat("low"),
+                                                resultSet.getFloat("open"),
+                                                resultSet.getFloat("close")
+                                        )
+                                );
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                } catch (SQLException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return lastMeasure;
+            }
+
+            @Override
+            protected void onPostExecute(Measure lastMeasure) {
+                super.onPostExecute(lastMeasure);
+                EquipamentosManager.clearGraph();
+                if (entries.size() > 0) {
+                    EquipamentosManager.setGraphEntries(entries);
+                }
+
+            }
+        }.execute(mac);
+    }
+
     public static void AtualizarEquipamentoPorMac2(String mac) {
 
         //TODO: INICIO - Localizar equipamentos por mac, o códifo abaixo foi comentado para refatoração
@@ -235,4 +362,20 @@ public class EquipamentosManager {
         equipamentos = gson.fromJson(equipamentosJson, tipoLista);
     }
 
+    public static List<CandleEntry> getGraphEntries() {
+        return graphEntries;
+    }
+
+    public static void setGraphEntries(List<CandleEntry> graphEntries) {
+        EquipamentosManager.graphEntries = graphEntries;
+    }
+
+    public static void clearGraph(){
+        graphEntries.clear();
+        for (int i = 0; i < 30; i++) {
+            graphEntries.add(i,new CandleEntry(0,0,0,0,0));
+        }
+
+
+    }
 }

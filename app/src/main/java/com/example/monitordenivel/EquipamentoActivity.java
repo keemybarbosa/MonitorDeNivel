@@ -3,26 +3,33 @@ package com.example.monitordenivel;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.renderscript.ScriptGroup;
 import android.view.View;
 
+import com.example.monitordenivel.dao.ConnectionFactory;
 import com.example.monitordenivel.databinding.ActivityEquipamentoBinding;
-import com.example.monitordenivel.databinding.ActivityMainBinding;
 import com.example.monitordenivel.models.Equipamento;
 import com.example.monitordenivel.utils.WebServiceConstants;
+import com.github.mikephil.charting.data.CandleData;
+import com.github.mikephil.charting.data.CandleDataSet;
+import com.github.mikephil.charting.data.CandleEntry;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 
 public class EquipamentoActivity extends AppCompatActivity {
 
@@ -127,8 +134,151 @@ public class EquipamentoActivity extends AppCompatActivity {
         mImageDrawable.setLevel(5000);
 
 
+        //setGraphEquipment();
+        EquipamentosManager.clearGraph();
+        setCandleGraphEquipment(pMac);
 
 
+        //Runnable responsável por recuperar informações de medidas do dispositivo
+        runnable = new Runnable(){
+            @Override
+            public void run() {
+                buscarMedida(equipamento.getMac());
+
+                updateEquipmentInfo(true);
+
+                setCandleGraphEquipment(equipamento.getMac());
+
+                handler.postDelayed(this,1500);
+            }
+        };
+
+        handler.postDelayed(runnable,100);
+
+
+    }
+    private void setCandleGraphEquipment(String mac){
+        binding.candleStickGraph.getDescription().setText("Volume acumulado");
+
+        // Creating a list to store CandleEntry objects
+        List<CandleEntry> entries = new ArrayList<>();
+        entries.add(new CandleEntry(0, 80f, 90f, 70f, 85f)); // Up (green)
+        //List<CandleEntry> entries = EquipamentosManager.getCandleStickGraphData(""); //getCandleEquipmentEntries("mac");
+        EquipamentosManager.atualizarGraficoPorMac(mac);
+        entries = EquipamentosManager.getGraphEntries();
+
+        // Created a CandleDataSet from the entries
+        CandleDataSet dataSet = new CandleDataSet(entries, "Nível");
+
+        dataSet.setDrawIcons(false);
+        dataSet.setIncreasingColor(Color.GREEN); // Color for up (green) candlesticks
+        dataSet.setIncreasingPaintStyle(Paint.Style.FILL); // Set the paint style to Fill for green candlesticks
+        dataSet.setDecreasingColor(Color.RED); // Color for down (red) candlesticks
+        dataSet.setShadowColorSameAsCandle(true); // Using the same color for shadows as the candlesticks
+        dataSet.setDrawValues(false);             // Hiding the values on the chart if not needed
+
+        // Created a CandleData object from the CandleDataSet
+        CandleData data = new CandleData(dataSet);
+
+        // Seinft the CandleData to the CandleStickChart
+        binding.candleStickGraph.setData(data);
+        binding.candleStickGraph.invalidate();
+    }
+
+    private List<CandleEntry> getCandleEquipmentEntries(String mac) {
+        List<CandleEntry> entries = new ArrayList<>();
+
+        String sql = "WITH last_30_days AS ( " +
+                "  SELECT " +
+                "    date_trunc('day', date_time) AS date, " +
+                "    mac, " +
+                "    MIN(measure) AS low, " +
+                "    MAX(measure) AS high " +
+                "  FROM " +
+                "    measure " +
+                "  WHERE " +
+                "    date_time >= current_date - interval '29 days' " +
+                "    AND mac = 'D4:D4:DA:E4:BE:64' " +
+                "  GROUP BY " +
+                "    date_trunc('day', date_time), " +
+                "    mac " +
+                "), " +
+                "open_values AS ( " +
+                "  SELECT DISTINCT ON (date_trunc('day', date_time), mac) " +
+                "    date_trunc('day', date_time) AS date, " +
+                "    mac, " +
+                "    measure AS open " +
+                "  FROM " +
+                "    measure " +
+                "  WHERE " +
+                "    date_time >= current_date - interval '29 days' " +
+                "    AND mac = 'D4:D4:DA:E4:BE:64' " +
+                "  ORDER BY " +
+                "    date_trunc('day', date_time), " +
+                "    mac, " +
+                "    date_time " +
+                "), " +
+                "close_values AS ( " +
+                "  SELECT DISTINCT ON (date_trunc('day', date_time), mac) " +
+                "    date_trunc('day', date_time) AS date, " +
+                "    mac, " +
+                "    measure AS close " +
+                "  FROM " +
+                "    measure " +
+                "  WHERE " +
+                "    date_time >= current_date - interval '29 days' " +
+                "    AND mac = 'D4:D4:DA:E4:BE:64' " +
+                "  ORDER BY " +
+                "    date_trunc('day', date_time) DESC, " +
+                "    mac, " +
+                "    date_time DESC " +
+                ") " +
+                "SELECT " +
+                "  ld.date, " +
+                "  ov.open, " +
+                "  ld.low, " +
+                "  ld.high, " +
+                "  cv.close, " +
+                "  ld.mac " +
+                "FROM " +
+                "  last_30_days ld " +
+                "JOIN " +
+                "  open_values ov ON ld.date = ov.date AND ld.mac = ov.mac " +
+                "JOIN " +
+                "  close_values cv ON ld.date = cv.date AND ld.mac = cv.mac " +
+                "ORDER BY " +
+                "  ld.mac, " +
+                "  ld.date; ";
+
+                int indice = 0;
+                try (Connection connection = ConnectionFactory.getConnection()) {
+                    String query = sql;
+                    try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        //statement.setString(1, mac);
+                        try (ResultSet resultSet = statement.executeQuery()) {
+                            if (resultSet.next()) {
+
+                                entries.add(
+                                        new CandleEntry(indice,
+                                        resultSet.getFloat("high"),
+                                        resultSet.getFloat("low"),
+                                        resultSet.getFloat("open"),
+                                        resultSet.getFloat("close")
+                                        )
+                                );
+                                indice++;
+
+                            }
+                        }
+                    }
+                } catch (SQLException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return entries;
+
+    }
+
+    private void setGraphEquipment() {
         // GRÁFICO
         // on below line we are adding data to our graph view.
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
@@ -172,28 +322,6 @@ public class EquipamentoActivity extends AppCompatActivity {
         // on below line we are adding
         // data series to our graph view.
         binding.graphEquipment.addSeries(series);
-
-
-
-
-
-
-
-        //Runnable responsável por recuperar informações de medidas do dispositivo
-        runnable = new Runnable(){
-            @Override
-            public void run() {
-                buscarMedida(equipamento.getMac());
-
-                updateEquipmentInfo(true);
-
-                handler.postDelayed(this,1500);
-            }
-        };
-
-        handler.postDelayed(runnable,100);
-
-
     }
 
     /**Método que atualiza os dados na tela de equipamentos, estes dados devem estar
