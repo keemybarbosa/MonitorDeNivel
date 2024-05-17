@@ -1,9 +1,7 @@
 package com.example.monitordenivel;
 
-import android.app.Application;
-import android.app.NotificationChannel;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.example.monitordenivel.dao.ConnectionFactory;
 import com.example.monitordenivel.dao.MeasureDao;
@@ -14,10 +12,6 @@ import com.example.monitordenivel.utils.WebServiceConstants;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,6 +24,8 @@ import java.util.List;
 public class EquipamentosManager {
     public static ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
+
+
     public void EquipamentoManager() {
         //equipamentos = new ArrayList<>();
     }
@@ -38,7 +34,7 @@ public class EquipamentosManager {
         //Método que chama de forma assíncrona uma requisição que atualiza uma lista de equipamentos
 
         String taskURL = ""; //WebServiceConstants.EQUIPMENT_ENDPOINT + "/";
-        taskURL = "http://vps52736.publiccloud.com.br:8080/api/equipment";
+        taskURL = "http://" + WebServiceConstants.BASE_DOMAIN + ":8080/api/equipment";
 
         try {
             AssyncTaskRunnerB.executeAsyncTask(taskURL, new AsyncTaskCallback() {
@@ -221,6 +217,22 @@ public class EquipamentosManager {
 
         */
 
+    }
+
+    public static void SalvarUltimosEquipamentos(SharedPreferences preferences) {
+        Gson gson = new Gson();
+        String equipamentosJson = gson.toJson(equipamentos);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("equipamentos", equipamentosJson);
+        editor.apply();
+    }
+
+    public static void CarregarUltimosEquipamentos(SharedPreferences preferences){
+        Gson gson = new Gson();
+        String equipamentosJson = preferences.getString("equipamentos", "");
+        Type tipoLista = new TypeToken<ArrayList<Equipamento>>(){}.getType();
+        equipamentos = gson.fromJson(equipamentosJson, tipoLista);
     }
 
 }

@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class Utils {
     public static String obterDensidadeTela(Context context) {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -36,4 +40,10 @@ public class Utils {
         return (int) (Math.random() * max);
     }
 
+    public static String getDate() {
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM HH:mm:ss");
+        String formattedDate = dateFormat.format(currentDate);
+        return formattedDate;
+    }
 }

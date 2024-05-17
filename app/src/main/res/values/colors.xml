@@ -12,7 +12,10 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
-    <color name="aquanivel_darkgreen">#008000</color>
-    <color name="aquanivel_intermediate_green">#4ca64c</color>
+    <color name="aquanivel_darkgreen">#FF0384F4</color>
+    <color name="aquanivel_intermediate_green">#800384F4</color>
+    <!-- <color name="aquanivel_intermediate_green">#FF00A3D4</color> -->
+    <color name="color_font_main_color">#FF4D4F57</color>
+    <color name="background_color">#FFFFFF</color>
 
 </resources>

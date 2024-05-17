@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EquipamentoActivity">
+    tools:context=".EquipamentoActivity"
+    android:background="@color/background_color"
+    >
 
     <View
         android:id="@+id/eq_container_header"
@@ -37,7 +39,9 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="25dp"
         android:textAlignment="center"
-        android:text="AquaNivel"
+        android:textColor="@color/background_color"
+        android:textStyle="bold"
+        android:text="  AquaNível"
         android:textSize="@dimen/font_titulo1_size"
         />
 
@@ -51,6 +55,7 @@
         app:layout_constraintTop_toBottomOf="@id/eq_container_header"
         android:text="Equipamento"
         android:textSize="@dimen/font_titulo1_size"
+        android:textColor="@color/color_font_main_color"
         />
 
     <!-- Back Button -->
@@ -135,6 +140,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_marginTop="20dp"
         android:text="Nome"
         android:textAlignment="center"
+        android:textColor="@color/color_font_main_color"
         app:layout_constraintEnd_toStartOf="@id/imgNivel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lblEquipamento"
@@ -150,6 +156,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:text="{Nome}"
         android:textAlignment="center"
         android:textSize="@dimen/font_equipment_name"
+        android:textColor="@color/color_font_main_color"
         app:layout_constraintEnd_toStartOf="@id/imgNivel"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -163,6 +170,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_marginTop="20dp"
         android:text="Nível"
         android:textAlignment="center"
+        android:textColor="@color/color_font_main_color"
         app:layout_constraintEnd_toStartOf="@id/imgNivel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEqpName"
@@ -177,6 +185,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
 
         android:text="{Percentual}"
         android:textAlignment="center"
+        android:textColor="@color/color_font_main_color"
         app:layout_constraintTop_toBottomOf="@id/lblPercentual"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/imgNivel"
@@ -203,6 +212,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:text="Leitura: "
         android:textAlignment="textStart"
         android:textSize="@dimen/font_equipment_detalhes"
+        android:textColor="@color/color_font_main_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tvEqpId" />
 
@@ -213,6 +223,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_height="wrap_content"
         android:text="Id: "
         android:textSize="@dimen/font_equipment_detalhes"
+        android:textColor="@color/color_font_main_color"
 
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"
@@ -226,6 +237,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_height="wrap_content"
         android:text="Mac: "
         android:textSize="@dimen/font_equipment_detalhes"
+        android:textColor="@color/color_font_main_color"
 
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"
@@ -239,6 +251,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_height="wrap_content"
         android:text="Volume: "
         android:textSize="@dimen/font_equipment_detalhes"
+        android:textColor="@color/color_font_main_color"
 
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"
@@ -252,6 +265,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_height="wrap_content"
         android:text="Distância Cheio: "
         android:textSize="@dimen/font_equipment_detalhes"
+        android:textColor="@color/color_font_main_color"
 
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"
@@ -265,6 +279,8 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_height="wrap_content"
         android:text="Distância Vazio: "
         android:textSize="@dimen/font_equipment_detalhes"
+        android:textColor="@color/color_font_main_color"
+
         android:layout_marginLeft="10dp"
         android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -291,6 +307,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="Dados do gráfico temporários"
+        android:textColor="@color/color_font_main_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEqpMessage"
         />

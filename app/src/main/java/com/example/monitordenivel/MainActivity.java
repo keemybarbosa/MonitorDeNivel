@@ -3,7 +3,9 @@ package com.example.monitordenivel;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -78,13 +80,11 @@ public class MainActivity extends AppCompatActivity {
 
         boolean bComeFromEquipment = getIntent().getBooleanExtra("fromEquipamentos", false);
 
-        Date currentDate = Calendar.getInstance().getTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM HH:mm:ss");
-        String formattedDate = dateFormat.format(currentDate);
+
 
         if (bComeFromEquipment) {
             int i = 0;
-            tvMessages.setText("Atualizando " + currentDate);
+            tvMessages.setText("Atualizando " + Utils.getDate());
             for (Equipamento eq : EquipamentosManager.equipamentos) {
                 EquipamentosManager.AtualizarEquipamentoPorMac(eq.getMac());
                 atualizarEquipamentoTela(i);
@@ -147,18 +147,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        EquipamentosManager.CarregarUltimosEquipamentos(getSharedPreferences("preferences", Context.MODE_PRIVATE));
+        int i = 0;
+        for (Equipamento eq : EquipamentosManager.equipamentos){
+            atualizarEquipamentoTela(i);
+            i++;
+        }
 
         handler = new Handler();
         //Configuração de um Runnable que verifica a leitura dos dispositivos
         // que estão na tela principal
         runEquipments = new Runnable() {
 
-
             @Override
             public void run() {
 
                 int INTERVAL = 10000;
 
+                tvMessages.setText("Atualizando " + Utils.getDate() + "\n" + tvMessages.getText());
                 EquipamentosManager.CarregarEquipamentos();
                 int i = 0;
                 for (Equipamento eq : EquipamentosManager.equipamentos) {
@@ -166,6 +172,8 @@ public class MainActivity extends AppCompatActivity {
                     atualizarEquipamentoTela(i);
                     i++;
                 }
+
+                EquipamentosManager.SalvarUltimosEquipamentos(getSharedPreferences("preferences", Context.MODE_PRIVATE));
 
                 //Reexecuta após 1.5 segundos
                 handler.postDelayed(this,INTERVAL);

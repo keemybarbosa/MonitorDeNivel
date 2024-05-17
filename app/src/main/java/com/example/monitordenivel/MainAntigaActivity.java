@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.monitordenivel.databinding.ActivityMainantigaBinding;
 import com.example.monitordenivel.models.Equipamento;
+import com.example.monitordenivel.utils.WebServiceConstants;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
@@ -121,7 +122,7 @@ public class MainAntigaActivity extends AppCompatActivity {
     public void carregarDados(TextView tv1, ListView lvEquipments){
         tv1.setText("Loading...");
         //AsyncTaskRunner runner = new AsyncTaskRunner("http://vps52736.publiccloud.com.br:8080/api/measure/last");
-        AsyncTaskRunner runner = new AsyncTaskRunner("http://vps52736.publiccloud.com.br:8080/api/equipment", new AsyncTaskCallback() {
+        AsyncTaskRunner runner = new AsyncTaskRunner("http://" + WebServiceConstants.BASE_DOMAIN + ":8080/api/equipment", new AsyncTaskCallback() {
             @Override
             public void onTaskCompleted(String result) {
                 ArrayList<Equipamento> equipamentos = getEquipamentosFromJson(result);
