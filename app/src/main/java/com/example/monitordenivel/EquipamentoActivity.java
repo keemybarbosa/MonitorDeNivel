@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import com.example.monitordenivel.dao.ConnectionFactory;
 import com.example.monitordenivel.databinding.ActivityEquipamentoBinding;
 import com.example.monitordenivel.models.Equipamento;
 import com.example.monitordenivel.utils.WebServiceConstants;
@@ -23,10 +22,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +103,7 @@ public class EquipamentoActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("fromEquipamentos",true);
                 intent.putParcelableArrayListExtra("listaEquipamentos", equipamentos);
-                EquipamentosManager.clearGraph();
+                EquipamentosManager.clearCandleGraph();
                 startActivity(intent);
                 finish();
             }
@@ -138,7 +133,7 @@ public class EquipamentoActivity extends AppCompatActivity {
 
 
         //setGraphEquipment();
-        EquipamentosManager.clearGraph();
+        EquipamentosManager.clearCandleGraph();
         setCandleGraphEquipment(pMac, true);
 
 
@@ -183,10 +178,10 @@ public class EquipamentoActivity extends AppCompatActivity {
         //Só busca os dados em banco quando o parâmetro atualizar for verdadeiro
         if (atualizar) {
             EquipamentosManager.bCarregando = true;
-            EquipamentosManager.atualizarGraficoPorMac(mac);
+            EquipamentosManager.atualizarCandleGraphByMac(mac);
         }
 
-        entries = EquipamentosManager.getGraphEntries();
+        entries = EquipamentosManager.getCandleGraphEntries();
 
         // Created a CandleDataSet from the entries
         CandleDataSet dataSet = new CandleDataSet(entries, "Nível");

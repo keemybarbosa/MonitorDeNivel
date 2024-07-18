@@ -1,10 +1,7 @@
 package com.example.monitordenivel;
 
 import android.content.SharedPreferences;
-import android.media.audiofx.DynamicsProcessing;
 import android.os.AsyncTask;
-
-import androidx.compose.runtime.ExpectKt;
 
 import com.example.monitordenivel.dao.ConnectionFactory;
 import com.example.monitordenivel.dao.MeasureDao;
@@ -30,12 +27,12 @@ import java.util.concurrent.TimeUnit;
 
 public class EquipamentosManager {
     public static ArrayList<Equipamento> equipamentos = new ArrayList<>();
-    public static List<CandleEntry> graphEntries = new ArrayList<>();
+    public static List<CandleEntry> candleGraphEntries = new ArrayList<>();
 
     public static boolean bCarregando = true;
 
     static {
-        graphEntries.add(0,new CandleEntry(0,0,0,0,0));
+        candleGraphEntries.add(0,new CandleEntry(0,0,0,0,0));
     }
 
     public static void CarregarEquipamentos(){
@@ -163,7 +160,7 @@ public class EquipamentosManager {
     }
 
 
-    public static void atualizarGraficoPorMac(String mac) {
+    public static void atualizarCandleGraphByMac(String mac) {
         List<CandleEntry> entries = new ArrayList<>();
 
         Date currentDate = Calendar.getInstance().getTime();
@@ -236,7 +233,7 @@ public class EquipamentosManager {
                             "  ld.date; ";
 
                     //insere 30 dias zerados
-                    EquipamentosManager.clearGraph();
+                    EquipamentosManager.clearCandleGraph();
                     entries.clear();
                     for (int i = 0; i < 30; i++) {
                         entries.add(new CandleEntry(i,0,0,0,0) );
@@ -280,9 +277,9 @@ public class EquipamentosManager {
             @Override
             protected void onPostExecute(Measure lastMeasure) {
                 super.onPostExecute(lastMeasure);
-                EquipamentosManager.clearGraph();
+                EquipamentosManager.clearCandleGraph();
                 if (entries.size() > 0) {
-                    EquipamentosManager.setGraphEntries(entries);
+                    EquipamentosManager.setCandleGraphEntries(entries);
                 }
 
             }
@@ -372,18 +369,18 @@ public class EquipamentosManager {
         equipamentos = gson.fromJson(equipamentosJson, tipoLista);
     }
 
-    public static List<CandleEntry> getGraphEntries() {
-        return graphEntries;
+    public static List<CandleEntry> getCandleGraphEntries() {
+        return candleGraphEntries;
     }
 
-    public static void setGraphEntries(List<CandleEntry> graphEntries) {
-        EquipamentosManager.graphEntries = graphEntries;
+    public static void setCandleGraphEntries(List<CandleEntry> candleGraphEntries) {
+        EquipamentosManager.candleGraphEntries = candleGraphEntries;
     }
 
-    public static void clearGraph(){
-        graphEntries.clear();
+    public static void clearCandleGraph(){
+        candleGraphEntries.clear();
         for (int i = 0; i < 30; i++) {
-            graphEntries.add(i,new CandleEntry(0,0,0,0,0));
+            candleGraphEntries.add(i,new CandleEntry(0,0,0,0,0));
         }
 
 
