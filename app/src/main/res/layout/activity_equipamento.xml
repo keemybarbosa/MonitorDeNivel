@@ -192,6 +192,22 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:textSize="@dimen/font_equipment_percent"
         android:layout_marginLeft="10dp"
         />
+    <TextView
+        android:id="@+id/tvEqpMCA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+
+        android:text="m.c.a"
+        android:textAlignment="center"
+        android:textColor="@color/color_font_main_color"
+        app:layout_constraintTop_toBottomOf="@id/tvEqpPercentual"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imgNivel"
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp"
+        />
 
 
     <!-- ###################################### -->
@@ -306,7 +322,7 @@ app:layout_constraintEnd_toEndOf="parent"-->
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="Carregando..."
+        android:text="{message}"
         android:textColor="@color/color_font_main_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEqpMessage"

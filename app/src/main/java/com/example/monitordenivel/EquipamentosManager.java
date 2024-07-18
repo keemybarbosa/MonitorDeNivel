@@ -32,6 +32,8 @@ public class EquipamentosManager {
     public static ArrayList<Equipamento> equipamentos = new ArrayList<>();
     public static List<CandleEntry> graphEntries = new ArrayList<>();
 
+    public static boolean bCarregando = true;
+
     static {
         graphEntries.add(0,new CandleEntry(0,0,0,0,0));
     }
@@ -73,14 +75,17 @@ public class EquipamentosManager {
         boolean bExiste = false;
 
         //Procura o equipamento na lista
-        for (Equipamento equipamento : equipamentos) {
-            if (equipamento.getMac().equals(eq.getMac())) {
-                bExiste = true;
-                break;
+        if(equipamentos != null) {
+            for (Equipamento equipamento : equipamentos) {
+                if (equipamento.getMac().equals(eq.getMac())) {
+                    bExiste = true;
+                    break;
+                }
             }
         }
 
         if (!bExiste) {
+            if(equipamentos == null) equipamentos = new ArrayList<>();
             equipamentos.add(eq);
         }
     }
@@ -246,15 +251,20 @@ public class EquipamentosManager {
                                 long diffEmDias = TimeUnit.DAYS.convert(diffEmMilissegundos, TimeUnit.MILLISECONDS);
                                 int indice = 30 - (int) diffEmDias - 1;
 
-                                entries.set(indice,
-                                        new CandleEntry(indice,
-                                                resultSet.getFloat("high"),
-                                                resultSet.getFloat("low"),
-                                                resultSet.getFloat("open"),
-                                                resultSet.getFloat("close")
-                                        )
-                                );
+                                if(indice >= 0 && indice <30) {
+                                    entries.set(indice,
+                                            new CandleEntry(indice,
+                                                    resultSet.getFloat("high"),
+                                                    resultSet.getFloat("low"),
+                                                    resultSet.getFloat("open"),
+                                                    resultSet.getFloat("close")
+                                            )
+                                    );
+                                } else {
+                                    System.out.println("Dados fora do período");
+                                }
                             }
+                            bCarregando = false;
                         } catch (Exception e){
                             e.printStackTrace();
                         }

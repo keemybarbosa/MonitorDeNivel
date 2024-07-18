@@ -148,10 +148,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         EquipamentosManager.CarregarUltimosEquipamentos(getSharedPreferences("preferences", Context.MODE_PRIVATE));
-        int i = 0;
-        for (Equipamento eq : EquipamentosManager.equipamentos){
-            atualizarEquipamentoTela(i);
-            i++;
+        if(EquipamentosManager.equipamentos != null) {
+            int i = 0;
+            for (Equipamento eq : EquipamentosManager.equipamentos) {
+                atualizarEquipamentoTela(i);
+                i++;
+            }
         }
 
         handler = new Handler();
@@ -167,10 +169,12 @@ public class MainActivity extends AppCompatActivity {
                 tvMessages.setText("Atualizando " + Utils.getDate() + "\n" + tvMessages.getText());
                 EquipamentosManager.CarregarEquipamentos();
                 int i = 0;
-                for (Equipamento eq : EquipamentosManager.equipamentos) {
-                    EquipamentosManager.AtualizarEquipamentoPorMac(eq.getMac());
-                    atualizarEquipamentoTela(i);
-                    i++;
+                if(EquipamentosManager.equipamentos != null) {
+                    for (Equipamento eq : EquipamentosManager.equipamentos) {
+                        EquipamentosManager.AtualizarEquipamentoPorMac(eq.getMac());
+                        atualizarEquipamentoTela(i);
+                        i++;
+                    }
                 }
 
                 EquipamentosManager.SalvarUltimosEquipamentos(getSharedPreferences("preferences", Context.MODE_PRIVATE));

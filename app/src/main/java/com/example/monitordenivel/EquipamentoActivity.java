@@ -46,6 +46,8 @@ public class EquipamentoActivity extends AppCompatActivity {
     /* BEGIN - Up Animation */
     private Handler mUpHandler = new Handler();
 
+    private int carregandoCount = 0;
+
 
     /* ****************************/
     /* ****************************/
@@ -106,6 +108,7 @@ public class EquipamentoActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("fromEquipamentos",true);
                 intent.putParcelableArrayListExtra("listaEquipamentos", equipamentos);
+                EquipamentosManager.clearGraph();
                 startActivity(intent);
                 finish();
             }
@@ -136,7 +139,7 @@ public class EquipamentoActivity extends AppCompatActivity {
 
         //setGraphEquipment();
         EquipamentosManager.clearGraph();
-        setCandleGraphEquipment(pMac);
+        setCandleGraphEquipment(pMac, true);
 
 
         //Runnable responsável por recuperar informações de medidas do dispositivo
@@ -147,9 +150,22 @@ public class EquipamentoActivity extends AppCompatActivity {
 
                 updateEquipmentInfo(true);
 
-                setCandleGraphEquipment(equipamento.getMac());
+                //Só atualiza a cada 20 passagens na atualização para não sobrecarregar
+                if (carregandoCount%10 == 0) {
+                    setCandleGraphEquipment(equipamento.getMac(), true);
+                } else {
+                    setCandleGraphEquipment(equipamento.getMac(), false);
+                }
+                carregandoCount = carregandoCount % 10;
+                carregandoCount++;
 
-                handler.postDelayed(this,1500);
+                if(EquipamentosManager.bCarregando){
+                    binding.lblStatusGraph.setText("Carregando...");
+                } else {
+                    binding.lblStatusGraph.setText("Ok");
+                }
+
+                handler.postDelayed(this,5000);
             }
         };
 
@@ -157,14 +173,19 @@ public class EquipamentoActivity extends AppCompatActivity {
 
 
     }
-    private void setCandleGraphEquipment(String mac){
+    private void setCandleGraphEquipment(String mac, boolean atualizar){
         binding.candleStickGraph.getDescription().setText("Volume acumulado");
 
         // Creating a list to store CandleEntry objects
         List<CandleEntry> entries = new ArrayList<>();
         entries.add(new CandleEntry(0, 80f, 90f, 70f, 85f)); // Up (green)
-        //List<CandleEntry> entries = EquipamentosManager.getCandleStickGraphData(""); //getCandleEquipmentEntries("mac");
-        EquipamentosManager.atualizarGraficoPorMac(mac);
+
+        //Só busca os dados em banco quando o parâmetro atualizar for verdadeiro
+        if (atualizar) {
+            EquipamentosManager.bCarregando = true;
+            EquipamentosManager.atualizarGraficoPorMac(mac);
+        }
+
         entries = EquipamentosManager.getGraphEntries();
 
         // Created a CandleDataSet from the entries
@@ -187,7 +208,7 @@ public class EquipamentoActivity extends AppCompatActivity {
 
     private List<CandleEntry> getCandleEquipmentEntries(String mac) {
         List<CandleEntry> entries = new ArrayList<>();
-
+/*
         String sql = "WITH last_30_days AS ( " +
                 "  SELECT " +
                 "    date_trunc('day', date_time) AS date, " +
@@ -273,7 +294,7 @@ public class EquipamentoActivity extends AppCompatActivity {
                     }
                 } catch (SQLException | ClassNotFoundException e) {
                     e.printStackTrace();
-                }
+                }*/
                 return entries;
 
     }
@@ -333,8 +354,10 @@ public class EquipamentoActivity extends AppCompatActivity {
     private void updateEquipmentInfo(boolean updatePercentual) {
 
         DecimalFormat formatter = new DecimalFormat("#0.0");
+        DecimalFormat formatter00 = new DecimalFormat("#0.00");
 
         //if (equipamento.getMeasure() == 0) return;
+        String sVolLitters = "";
 
         if (updatePercentual) {
             Double dPercentual = equipamento.getPercentual();
@@ -342,20 +365,29 @@ public class EquipamentoActivity extends AppCompatActivity {
             if (dPercentual < 0){
                 binding.tvEqpPercentual.setText("Lmt Exced");
                 binding.tvEqpMessage.setText("Medida capturada excede fundo reservatório!");
+                sVolLitters = "0";
             } else if (dPercentual > 100.0){
                 binding.tvEqpPercentual.setText("Transb.");
                 binding.tvEqpMessage.setText("Transbordo!");
+
+                mImageDrawable.setLevel((int) (MAX_LEVEL));
+
+                sVolLitters = "" + equipamento.getVolume();
             } else {
                 binding.tvEqpPercentual.setText(equipamento.getPercentualAsString());
                 binding.tvEqpMessage.setText("");
 
                 mImageDrawable.setLevel((int) (dPercentual/100 * MAX_LEVEL));
-
+                sVolLitters = "" + formatter.format(dPercentual/100 * equipamento.getVolume());
             }
 
 
         }
 
+        double dMCA = (equipamento.getEmptycm()/10.0f) -
+                      (equipamento.getMeasure()/10.0f);
+
+        binding.tvEqpMCA.setText(formatter00.format(dMCA/100.0f)  + " m.c.a. (" + sVolLitters + "L)");
 
         //TODO: exibindo o mac no lugar do nome por enquanto
         binding.tvEqpName.setText("" + equipamento.getMac());
